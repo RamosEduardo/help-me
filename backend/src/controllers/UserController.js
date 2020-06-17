@@ -5,8 +5,18 @@ const sendEmail = require('../utils/sendEmail');
 module.exports = {
 
     async index(request, response) {
+
+        const { id } = request.params;
+        if (id) {
+            const user = await connection('users').where('id', id).select('*').first();
+            return response.json({
+                firstAcess: user.firstAcess,
+                firstAcessPassword: user.firstAcessPassword
+            });
+        }
         const users = await connection('users').select('*');
         return response.json({ users })
+
     },
 
     async remove(req, res) {

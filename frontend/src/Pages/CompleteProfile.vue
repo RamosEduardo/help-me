@@ -29,43 +29,23 @@
 
 <script>
 
-import { getUserIdByToken } from '../utils/utils';
 import api from '../services/api';
 
 export default {
   data() {
     return {
       person: {},
-      userId: {},
-      view: 'home',
     }
   },
-  mounted() {
-    this.getUserByToken();
-  },
   methods: {
-    async checkFirstAccess() {
-      const userId = await this.getUserByToken();
-      const { firstAccess, firstAccessPassword } = await this.checkFirstAccess();
-
-      if (firstAccess)
-        this.view = 'complete-profile';
-      if (!firstAccess && firstAccessPassword)
-        this.view = 'set-new-password';
-      if (!firstAccess && !firstAccessPassword)
-        this.view = 'home';
-      
-
-    // Fazer verificação e chamar o componente respectivo
-
-    },
-    async getAccessInfos({ userId }) {
-      return await api.get(`/users/${userId}`);
-    },
-    getUserByToken() {
-      return getUserIdByToken({
-        tokenParam: localStorage.getItem('token'),
+    async save() {
+      const token = localStorage.getItem('token');
+      await api.post('/peoples', this.person, {
+        headers: {
+          Authorization: token,
+        }
       });
+      localStorage.setItem('name', this.person.name);
     }
   },
 }

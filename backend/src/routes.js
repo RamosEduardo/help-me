@@ -10,7 +10,7 @@ const HelpersController = require('./controllers/HelpersController');
 routes.post('/users', UserController.create);
 routes.put('/users', UserController.rememberPassword);
 routes.delete('/users', UserController.remove);
-routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.index);
 routes.post('/login', UserController.login);
 
 // Rotas de Pessoas
