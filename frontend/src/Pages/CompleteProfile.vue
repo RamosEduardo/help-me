@@ -1,42 +1,113 @@
 <template>
-  <div>
-            <!-- name, 
-            documentId, 
-            cpf, 
-            mobilePhone, 
-            otherPhone, 
-            zipCode, 
-            street, 
-            numberHouse, 
-            neighborhood, 
-            city, 
-            state -->
-    Complete seu cadastro<br><br>
-    Nome: <input v-model="person.name" type="text" /><br><br>
-    RG: <input v-model="person.documentId" type="text" /><br><br>
-    CPF: <input v-model="person.cpf" type="text" /><br><br>
-    Telefone: <input v-model="person.mobilePhone" type="text" /><br><br>
-    Contato: <input v-model="person.otherPhone" type="text" /><br><br>
-    Cep: <input v-model="person.zipCode" type="text" /><br><br>
-    Rua: <input v-model="person.street" type="text" /><br><br>
-    Num: <input v-model="person.numberHouse" type="text" /><br><br>
-    Bairro: <input v-model="person.neighborhood" type="text" /><br><br>
-    Cidade: <input v-model="person.city" type="text" /><br><br>
-    UF: <input v-model="person.state" type="text" /><br><br><br>
-    <button @click="save()">Salvar</button><br><br>
+  <div class="new-incident-container">
+    <div class="content">
+      <section>
+        <img :src="logoImg" alt="Be The Hero" />
+
+        <h1>Complete seu Cadastro</h1>
+        <p>Queremos saber um pouquinho mais sobre você! Vamos lá, é bem rapidinho!</p>
+
+        <a class="back-link" @click="$router.push('/')">
+          Voltar para home
+        </a>
+      </section>
+
+      <form @submit="save()">
+        <div style="display: flex; width: 100%; flex-direction: row; flex-wrap: wrap">
+          <div class="tab-step-form" @click="state.step = 'my-infos'" :class="{'tab-step-form-active': state.step === 'my-infos'}">
+            <span>
+              <b-icon icon="person-lines-fill"/>
+             MEUS DADOS
+            </span>
+          </div>
+          <div class="tab-step-form" @click="state.step = 'my-address'" :class="{'tab-step-form-active': state.step === 'my-address'}">
+            <span>
+              <b-icon icon="house"/>
+              MEU ENDEREÇO
+            </span>
+          </div>
+        </div>
+        <template v-if="state.step === 'my-infos'">
+          <div>
+            <input
+              placeholder="Seu Nome"
+              v-model="person.name"
+            />
+            <input
+              placeholder="Seu RG"
+              v-model="person.documentId"
+            />
+            <input
+              placeholder="Seu CPF"
+              v-model="person.cpf"
+            />
+            <input
+              placeholder="Seu Telefone"
+              v-model="person.mobilePhone"
+            />
+            <input
+              placeholder="Mais um Contatinho"
+              v-model="person.otherPhone"
+            />
+          </div>
+        </template>
+        <template v-if="state.step === 'my-address'">
+          <div>
+            <input
+              placeholder="Seu Cep"
+              v-model="person.zipCode"
+            />
+            <input
+              placeholder="Sua Rua"
+              v-model="person.street"
+            />
+            <input
+              placeholder="Qual é o Nº?"
+              v-model="person.numberHouse"
+            />
+            <input
+              placeholder="Sua Cidade"
+              v-model="person.city"
+            />
+            <input
+              placeholder="Seu Estado"
+              v-model="person.state"
+            />
+          </div>
+        </template>
+        <button
+          class="button"
+          type="submit"
+        >
+          Cadastrar
+        </button>
+      </form>
+    </div>
   </div>
+
+  <!-- <div>
+    Email: <input v-model="user" type="text" />
+    <button @click="create()">Salvar</button>
+  </div>-->
 </template>
 
 <script>
 
+import logoImg from '../assets/logo.svg';
 import api from '../services/api';
+import '../global.css';
 
 export default {
   data() {
     return {
       person: {},
+      logoImg: logoImg,
+      state: {
+        step: 'my-infos',
+      }
     }
   },
+
   methods: {
     async save() {
       const token = localStorage.getItem('token');
@@ -47,6 +118,92 @@ export default {
       });
       localStorage.setItem('name', this.person.name);
     }
-  },
+  }
+
+
 }
 </script>
+
+<style>
+.new-incident-container {
+  background: #f0f0f5;
+  width: 100%;
+  max-width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-incident-container .content {
+  width: 100%;
+  padding: 96px;
+  background: #f0f0f5;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-incident-container .content section {
+  width: 100%;
+  max-width: 380px;
+}
+
+.new-incident-container .content section h1 {
+  margin: 64px 0 32px;
+  font-size: 32px;
+}
+
+.new-incident-container .content section p {
+  font-size: 18px;
+  color: #737380;
+  line-height: 32px;
+}
+
+.new-incident-container .content form {
+  width: 100%;
+  max-width: 450px;
+}
+
+.tab-step-form {
+  width: 50%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.tab-step-form:hover {
+  cursor: pointer;
+  width: 50%;
+  padding: 10px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  border-bottom: 2px solid rgb(110, 110, 110);
+  transition-duration: 10ms;
+  transform-box: view-box;
+}
+
+.tab-step-form-active {
+  cursor: pointer;
+  width: 50%;
+  padding: 10px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  border-bottom: 2px solid rgb(110, 110, 110);
+  transition-duration: 10ms;
+  transform-box: view-box;
+}
+
+.new-incident-container .content form input,
+.new-incident-container .content form textarea {
+  margin-top: 8px;
+}
+</style>

@@ -1,29 +1,16 @@
 <template>
   <div>
-            <!-- name, 
-            documentId, 
-            cpf, 
-            mobilePhone, 
-            otherPhone, 
-            zipCode, 
-            street, 
-            numberHouse, 
-            neighborhood, 
-            city, 
-            state -->
-    Complete seu cadastro<br><br>
-    Nome: <input v-model="person.name" type="text" /><br><br>
-    RG: <input v-model="person.documentId" type="text" /><br><br>
-    CPF: <input v-model="person.cpf" type="text" /><br><br>
-    Telefone: <input v-model="person.mobilePhone" type="text" /><br><br>
-    Contato: <input v-model="person.otherPhone" type="text" /><br><br>
-    Cep: <input v-model="person.zipCode" type="text" /><br><br>
-    Rua: <input v-model="person.street" type="text" /><br><br>
-    Num: <input v-model="person.numberHouse" type="text" /><br><br>
-    Bairro: <input v-model="person.neighborhood" type="text" /><br><br>
-    Cidade: <input v-model="person.city" type="text" /><br><br>
-    UF: <input v-model="person.state" type="text" /><br><br><br>
-    <button @click="save()">Salvar</button><br><br>
+    <section v-if="state.view === 'home'">
+      <h1>BEM VINDO</h1>
+    </section>
+
+    <section v-if="state.view === 'complete-profile'">
+      <complete-profile />
+    </section>
+
+    <section v-if="state.view === 'set-new-password'">
+      <h1>NOVA SENHA</h1>
+    </section>
   </div>
 </template>
 
@@ -33,34 +20,39 @@ import { getUserIdByToken } from '../utils/utils';
 import api from '../services/api';
 
 export default {
+  components: {
+    CompleteProfile: () => import('./CompleteProfile'),
+  },
   data() {
     return {
-      person: {},
-      userId: {},
-      view: 'home',
+      state: {
+        view: 'home',
+      },
     }
   },
   mounted() {
-    this.getUserByToken();
+    this.checkFirstAccess();
   },
   methods: {
     async checkFirstAccess() {
       const userId = await this.getUserByToken();
-      const { firstAccess, firstAccessPassword } = await this.checkFirstAccess();
+      const { firstAcess, firstAcessPassword } = await this.getAccessInfos({
+        userId,
+      });
 
-      if (firstAccess)
-        this.view = 'complete-profile';
-      if (!firstAccess && firstAccessPassword)
-        this.view = 'set-new-password';
-      if (!firstAccess && !firstAccessPassword)
-        this.view = 'home';
+      if (firstAcess)
+        this.state.view = 'complete-profile';
+      if (!firstAcess && firstAcessPassword)
+        this.state.view = 'set-new-password';
+      if (!firstAcess && !firstAcessPassword)
+        this.state.view = 'home';
       
-
     // Fazer verificação e chamar o componente respectivo
 
     },
     async getAccessInfos({ userId }) {
-      return await api.get(`/users/${userId}`);
+      const { data } = await api.get(`/users/${userId}`);
+      return data;
     },
     getUserByToken() {
       return getUserIdByToken({

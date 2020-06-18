@@ -9,13 +9,12 @@ module.exports = {
         const { id } = request.params;
         if (id) {
             const user = await connection('users').where('id', id).select('*').first();
-            return response.json({
-                firstAcess: user.firstAcess,
-                firstAcessPassword: user.firstAcessPassword
-            });
+            return response.json(user);
+        } else {
+            const users = await connection('users').select('*');
+            console.log(users);
+            return response.json({ users })
         }
-        const users = await connection('users').select('*');
-        return response.json({ users })
 
     },
 

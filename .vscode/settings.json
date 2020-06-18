@@ -1,0 +1,10 @@
+{
+  "sqltools.connections": [
+    {
+      "database": "${workspaceFolder:help-me}/backend/src/database/db.sqlite",
+      "driver": "SQLite",
+      "name": "test",
+      "previewLimit": 50
+    }
+  ]
+}
