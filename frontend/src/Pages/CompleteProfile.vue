@@ -11,8 +11,21 @@
           Voltar para home
         </a>
       </section>
+      <q-tabs
+          v-model="tab"
+          dense
+          class="text-grey"
+          active-color="primary"
+          indicator-color="primary"
+          align="justify"
+          narrow-indicator
+        >
+          <q-tab name="mails" label="Mails" />
+          <q-tab name="alarms" label="Alarms" />
+          <q-tab name="movies" label="Movies" />
+        </q-tabs>
 
-      <form @submit="save()">
+      <!-- <form @submit="save()">
         <div style="display: flex; width: 100%; flex-direction: row; flex-wrap: wrap">
           <div class="tab-step-form" @click="state.step = 'my-infos'" :class="{'tab-step-form-active': state.step === 'my-infos'}">
             <span>
@@ -30,22 +43,27 @@
         <template v-if="state.step === 'my-infos'">
           <div>
             <input
+              class="mt-15"
               placeholder="Seu Nome"
               v-model="person.name"
             />
             <input
+              class="mt-15"
               placeholder="Seu RG"
               v-model="person.documentId"
             />
             <input
+              class="mt-15"
               placeholder="Seu CPF"
               v-model="person.cpf"
             />
             <input
+              class="mt-15"
               placeholder="Seu Telefone"
               v-model="person.mobilePhone"
             />
             <input
+              class="mt-15"
               placeholder="Mais um Contatinho"
               v-model="person.otherPhone"
             />
@@ -54,22 +72,27 @@
         <template v-if="state.step === 'my-address'">
           <div>
             <input
+              class="mt-15"
               placeholder="Seu Cep"
               v-model="person.zipCode"
             />
             <input
+              class="mt-15"
               placeholder="Sua Rua"
               v-model="person.street"
             />
             <input
+              class="mt-15"
               placeholder="Qual é o Nº?"
               v-model="person.numberHouse"
             />
             <input
+              class="mt-15"
               placeholder="Sua Cidade"
               v-model="person.city"
             />
             <input
+              class="mt-15"
               placeholder="Seu Estado"
               v-model="person.state"
             />
@@ -81,7 +104,7 @@
         >
           Cadastrar
         </button>
-      </form>
+      </form> -->
     </div>
   </div>
 
@@ -110,6 +133,7 @@ export default {
 
   methods: {
     async save() {
+      // ToDo - Setar junto um update no user que seta false o primeiro acesso
       const token = localStorage.getItem('token');
       await api.post('/peoples', this.person, {
         headers: {
