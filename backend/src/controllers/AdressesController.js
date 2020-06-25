@@ -1,5 +1,6 @@
 const connection = require('../database/connection');
 const { index } = require('./HelpedsController');
+const { getUserIdByToken, generateTokenSession } = require('../utils/Utils');
 
 module.exports = {
     async create(req, res){
@@ -16,7 +17,7 @@ module.exports = {
 
         const helped_id = req.headers.authorization;
 
-        const adresse = await connection('adresses').insert({
+        const address = await connection('adresses').insert({
             type,
             ziCode,
             street,

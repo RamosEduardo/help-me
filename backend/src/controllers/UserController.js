@@ -1,20 +1,21 @@
 const connection = require('../database/connection');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
+const { getUserIdByToken, generateTokenSession } = require('../utils/Utils');
 
 module.exports = {
 
     async index(request, response) {
 
-        const { id } = request.params;
-        if (id) {
-            const user = await connection('users').where('id', id).select('*').first();
-            return response.json(user);
-        } else {
+        // const { id } = request.params;
+        // if (id) {
+        //     const user = await connection('users').where('id', id).select('*').first();
+        //     return response.json(user);
+        // } else {
             const users = await connection('users').select('*');
             console.log(users);
             return response.json({ users })
-        }
+        // }
 
     },
 
@@ -34,7 +35,7 @@ module.exports = {
         if (user) {
             console.log(user);
             if (user.senha === senha){
-                const token = new Buffer(user.id + '//' + user.senha).toString("base64");
+                const token = generateTokenSession({ value: `${ user.id + '//' + user.senha }` })
                 return response.status(200).json({ token });
             }
             return response.status(404).send('Senha Inválida');

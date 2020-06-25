@@ -12,7 +12,7 @@ const JoinSolicitationController = require('./controllers/JoinSolicitationContro
 routes.post('/users', UserController.create);
 routes.put('/users', UserController.rememberPassword);
 routes.delete('/users', UserController.remove);
-routes.get('/users/:id', UserController.index);
+routes.get('/users', UserController.index);
 routes.post('/login', UserController.login);
 
 // Rotas de Pessoas
@@ -42,6 +42,6 @@ routes.put('/solicitations', JoinSolicitationController.update);
 
 // Routes of Adresses 
 
-routes.post()
+// routes.post()
 
 module.exports = routes;
