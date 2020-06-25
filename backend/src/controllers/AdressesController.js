@@ -15,7 +15,11 @@ module.exports = {
             state
         } = req.body;
 
-        const helped_id = req.headers.authorization;
+        const token = req.headers.authorization;
+        const { helped_id } = req.headers;
+
+        //mudar para address
+        
 
         const address = await connection('adresses').insert({
             type,
