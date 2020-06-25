@@ -14,9 +14,7 @@ module.exports = {
             description,
             value,
             helped_id,
-            
-            
-        })
+        });
 
         return res.json({ id });
         
