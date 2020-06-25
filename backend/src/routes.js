@@ -9,6 +9,7 @@ const HelpersController = require('./controllers/HelpersController');
 const SolicitationsController = require('./controllers/SolicitationsController');
 const JoinSolicitationController = require('./controllers/JoinSolicitationController');
 
+
 routes.post('/users', UserController.create);
 routes.put('/users', UserController.rememberPassword);
 routes.delete('/users', UserController.remove);
