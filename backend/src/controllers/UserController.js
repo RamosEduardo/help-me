@@ -17,15 +17,15 @@ module.exports = {
         
         const { email, senha } = request.body;
 
-        const existUserEmail = await connection('users')
+        const user = await connection('users')
         .where({
             'email': email,
         }).select('*').first();
         
-        if (existUserEmail) {
-            console.log(existUserEmail);
-            if (existUserEmail.senha === senha){
-                const token = new Buffer(existUserEmail.id + '//' + existUserEmail.senha).toString("base64");
+        if (user) {
+            console.log(user);
+            if (user.senha === senha){
+                const token = new Buffer(user.id + '//' + user.senha).toString("base64");
                 return response.status(200).json({ token });
             }
             return response.status(404).send('Senha Inválida');

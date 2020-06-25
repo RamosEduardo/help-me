@@ -24,6 +24,8 @@ module.exports = {
         const user = token.split('//');
         const userId = user[0];
         
+        // Verificar se já existe usuario com cadastro de pessoa. Se já tiver retornar uma aviso.
+         
         const people = await connection('peoples')
             .where('user_id',userId)
             .update({

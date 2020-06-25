@@ -6,6 +6,8 @@ const UserController = require('./controllers/UserController');
 const PeopleController = require('./controllers/PeopleController');
 const HelpedsController = require('./controllers/HelpedsController');
 const HelpersController = require('./controllers/HelpersController');
+const SolicitationsController = require('./controllers/SolicitationsController');
+const JoinSolicitationController = require('./controllers/JoinSolicitationController');
 
 routes.post('/users', UserController.create);
 routes.put('/users', UserController.rememberPassword);
@@ -29,5 +31,17 @@ routes.get('/helpeds', HelpedsController.index);
 routes.post('/helpers', HelpersController.create);
 routes.get('/helpers', HelpersController.index);
 
+// Routes of Solicitations
+
+routes.post('/solicitations', SolicitationsController.create);
+routes.get('/solicitations', SolicitationsController.index);
+
+// Routes of Join Solicitation
+
+routes.put('/solicitations', JoinSolicitationController.update);
+
+// Routes of Adresses 
+
+routes.post()
 
 module.exports = routes;
