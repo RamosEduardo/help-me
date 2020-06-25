@@ -1,7 +1,7 @@
 <template>
   <div>
     <section v-if="state.view === 'home'">
-      <h1>BEM VINDO</h1>
+      <homespace />
     </section>
 
     <section v-if="state.view === 'complete-profile'">
@@ -21,7 +21,8 @@ import api from '../services/api';
 
 export default {
   components: {
-    CompleteProfile: () => import('./CompleteProfile'),
+    CompleteProfile: () => import('./CompleteProfile.vue'),
+    Homespace: () => import('./Homespace.vue'),
   },
   data() {
     return {

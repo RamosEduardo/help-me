@@ -24,7 +24,7 @@ module.exports = {
         if (!token)
             return res.status(400).send('Faça o login');
         const user = token.split('//');
-        const userId = user[0];
+        const userId = user[0]; //substituir pela utils
         
         const people = await connection('peoples')
             .where('user_id',userId)
@@ -67,7 +67,7 @@ module.exports = {
         if (!token)
           return res.status(400).send('Faça o login');
         const user = token.split('//');
-        const userId = user[0];
+        const userId = user[0]; //substituir
 
         Peoples.getPeoplesByUserId({ userId }).then(resp => {
           const { id } = resp;
