@@ -8,6 +8,7 @@ const HelpedsController = require('./controllers/HelpedsController');
 const HelpersController = require('./controllers/HelpersController');
 const SolicitationsController = require('./controllers/SolicitationsController');
 const JoinSolicitationController = require('./controllers/JoinSolicitationController');
+const AddressController = require('./controllers/AddressController');
 
 
 routes.post('/users', UserController.create);
@@ -43,6 +44,9 @@ routes.put('/solicitations', JoinSolicitationController.update);
 
 // Routes of Adresses 
 
-// routes.post()
+routes.post('/address', AddressController.create);
+routes.get('/address', AddressController.index);
+routes.put('/address/:id', AddressController.update);
+routes.delete('/address', AddressController.remove);
 
 module.exports = routes;

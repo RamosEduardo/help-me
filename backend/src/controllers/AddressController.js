@@ -1,12 +1,17 @@
 const connection = require('../database/connection');
 const { index } = require('./HelpedsController');
-const { getUserIdByToken, generateTokenSession } = require('../utils/Utils');
+const { query } = require('express');
+//const { getUserIdByToken, generateTokenSession } = require('../utils/Utils');
 
 module.exports = {
     async create(req, res){
+
+        //const { id } = r.params;
+        
+
         const {
             type,
-            ziCode,
+            zipCode,
             street,
             numberHouse,
             neighborhood,
@@ -15,25 +20,27 @@ module.exports = {
             state
         } = req.body;
 
-        const token = req.headers.authorization;
-        const { helped_id } = req.headers;
+       // const token = req.headers.authorization;
+        const helped_id = req.headers.authorization;
+
+       console.log(helped_id);
 
         //mudar para address
         
 
         const address = await connection('adresses').insert({
             type,
-            ziCode,
+            zipCode,
             street,
             numberHouse,
             neighborhood,
             complement,
             city,
             state,
-            helped_id    
+            helped_id: helped_id,   
         });
 
-        return res.status(200).json({ adresse });
+        return res.status(200).json({ address });
     },
 
 
@@ -41,20 +48,18 @@ module.exports = {
         
         const helped_id = req.headers.authorization;
 
-        const helpedAdresse = await connection('adresses')
+        const helpedAdress = await connection('adresses')
             .where('helped_id', helped_id)
             .select('*');
        
-           return res.json({ helpedAdresse });
+           return res.json({ helpedAdress });
     },
 
     async update(req, res){
         
-        const { id } = req.params;
-
         const {
             type,
-            ziCode,
+            zipCode,
             street,
             numberHouse,
             neighborhood,
@@ -63,38 +68,43 @@ module.exports = {
             state
         } = req.body;
 
-        const helped_id = req.headers.authorization;
+        const {id} = req.params;
 
-        const adresse = await connection('adresses')
-            .where  ('helped_id', helped_id)
-            .and    ('id', id)
+        const helped_id = req.headers.authorization;
+       
+        const address = await connection('adresses')
+            .where({
+                helped_id: helped_id,
+                id: id
+            })
             .update ({
                 type,
-                ziCode,
+                zipCode,
                 street,
                 numberHouse,
                 neighborhood,
                 complement,
                 city,
-                state    
+                state,
             });
 
-        return res.status(200).json({ adresse });
+        return res.status(200).json({ address });
     },
 
 
-    async detele(req, res){ 
+    async remove(req, res){ 
         
-        const { id } = req.params;
+        const {id} = req.params;
 
         const helped_id = req.headers.authorization;
 
-        const adresse = await connection('adresses')
+        const address = await connection('adresses')
             .where ('helped_id', helped_id)
             .and   ('id', id)
-            .delete('*');
+            .delete('*')
+            .first();
        
-           return res.status(204).send();
+           return res.status(204).json({ address });
     }
 
 };
