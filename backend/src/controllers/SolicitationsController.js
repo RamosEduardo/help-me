@@ -14,9 +14,7 @@ module.exports = {
             description,
             value,
             helped_id,
-            //adicionar hora de recebimento
-            
-        })
+        });
 
         return res.json({ id });
         
