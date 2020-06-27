@@ -10,6 +10,8 @@ module.exports = {
     .where('user_id',userId)
     .select('id').first();
 
+    
+    
     return people;
   },
 

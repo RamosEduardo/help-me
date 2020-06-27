@@ -69,8 +69,13 @@ module.exports = {
         const user = token.split('//');
         const userId = user[0]; //substituir
 
+        console.log('Oque vem por aqui', userId );
+        
         Peoples.getPeoplesByUserId({ userId }).then(resp => {
-          const { id } = resp;
+          const {id} = resp;
+
+          console.log(id);
+          
           
           Peoples.createPersonHelper({
             haveDriverLicense,

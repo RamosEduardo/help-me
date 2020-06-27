@@ -9,6 +9,9 @@ const HelpersController = require('./controllers/HelpersController');
 const SolicitationsController = require('./controllers/SolicitationsController');
 const JoinSolicitationController = require('./controllers/JoinSolicitationController');
 const AddressController = require('./controllers/AddressController');
+const ProductsController = require('./controllers/ProductsController');
+const categoriesController = require('./controllers/categoriesController');
+const vehiclesController = require('./controllers/vehiclesController');
 
 
 routes.post('/users', UserController.create);
@@ -28,7 +31,7 @@ routes.put('/peoples', PeopleController.update);
 routes.post('/helpeds', HelpedsController.create);
 routes.get('/helpeds', HelpedsController.index);
 
-// Routes of Helpeds
+// Routes of Helpers
 
 routes.post('/helpers', HelpersController.create);
 routes.get('/helpers', HelpersController.index);
@@ -48,5 +51,28 @@ routes.post('/address', AddressController.create);
 routes.get('/address', AddressController.index);
 routes.put('/address/:id', AddressController.update);
 routes.delete('/address/:id', AddressController.remove);
+
+// Routes of Product
+
+routes.post('/products', ProductsController.create);
+routes.get('/products', ProductsController.index);
+routes.put('/products/:id', ProductsController.update);
+routes.delete('/products/:id', ProductsController.remove);
+
+
+// Route of Categorie
+
+routes.post('/categories', categoriesController.create);
+routes.get('/categories', categoriesController.index);
+routes.put('/categories/:id', categoriesController.update);
+routes.delete('/categories/:id', categoriesController.remove);
+
+// Route of Vehicles
+
+routes.post('/vehicles', vehiclesController.create);
+routes.get('/vehicles', vehiclesController.index);
+routes.put('/vehicles', vehiclesController.update);
+routes.delete('/vehicles', vehiclesController.remove);
+
 
 module.exports = routes;
