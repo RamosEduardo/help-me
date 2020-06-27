@@ -6,14 +6,17 @@ const { index } = require('./HelpedsController');
 
 module.exports = {
     async create(req, res){
-        const{ description, value } = req.body;
+        const{ name, description, value, adresses_start_id, adresses_end_id } = req.body;
 
         const helped_id = req.headers.authorization;
         // const now = new Date();
         const [id] = await connection('solicitations').insert({
+            name,
             description,
             value,
             helped_id,
+            adresses_start_id,
+            adresses_end_id
         });
 
         return res.json({ id });

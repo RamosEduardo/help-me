@@ -47,6 +47,6 @@ routes.put('/solicitations', JoinSolicitationController.update);
 routes.post('/address', AddressController.create);
 routes.get('/address', AddressController.index);
 routes.put('/address/:id', AddressController.update);
-routes.delete('/address', AddressController.remove);
+routes.delete('/address/:id', AddressController.remove);
 
 module.exports = routes;

@@ -99,12 +99,13 @@ module.exports = {
         const helped_id = req.headers.authorization;
 
         const address = await connection('adresses')
-            .where ('helped_id', helped_id)
-            .and   ('id', id)
-            .delete('*')
-            .first();
+            .where({
+                helped_id: helped_id,
+                id: id
+            })
+            .delete('*');
        
-           return res.status(204).json({ address });
+           return res.status(200).json({ address });
     }
 
 };
