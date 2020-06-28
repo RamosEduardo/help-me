@@ -1,22 +1,37 @@
 <template>
   <q-page class="flex">
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-fab
+        icon="more_vert"
+        direction="left"
+        color="purple"
+      >
+        <q-fab-action label-position="right" color="secondary"
+        icon="done" style="margin-right: 30px"/>
+        <q-fab-action label-position="left" color="red"
+        icon="clear" style="margin-right: 30px"/>
+        <q-fab-action
+          label-position="left"
+          color="accent"
+          @click="close()"
+          icon="arrow_back_ios"
+          style="margin-right: 30px; z-index: 1000"
+        />
+      </q-fab>
+    </q-page-sticky>
     <div>
-      <div>
-        <template v-if="tab === 'helper'">
-          <helper-details />
-        </template>
-        <template v-if="tab === 'solicitation'">
-          <solicitation-details />
-        </template>
-        <template v-if="tab === 'product'">
-          <div>
-            Product
-          </div>
-        </template>
-        <template v-if="tab === 'picture'">
-          <product-pictures />
-        </template>
-      </div>
+      <template v-if="tab === 'helper'">
+        <helper-details style="z-index: 1"/>
+      </template>
+      <template v-if="tab === 'solicitation'">
+        <solicitation-details />
+      </template>
+      <template v-if="tab === 'product'">
+        <product-details />
+      </template>
+      <template v-if="tab === 'picture'">
+        <product-pictures />
+      </template>
     </div>
     <q-footer>
         <div class="tab-footer">
@@ -44,6 +59,7 @@ export default {
     HelperDetails: () => import('./helperDetails.vue'),
     ProductPictures: () => import('./productPictures.vue'),
     SolicitationDetails: () => import('./solicitationDetails.vue'),
+    ProductDetails: () => import('./productDetails.vue'),
   },
   data() {
     return {
@@ -82,6 +98,11 @@ export default {
         },
       },
     };
+  },
+  methods: {
+    close() {
+      console.log('CLOSE');
+    },
   },
 };
 </script>

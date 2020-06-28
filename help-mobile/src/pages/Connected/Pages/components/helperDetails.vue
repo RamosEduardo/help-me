@@ -34,13 +34,15 @@
           </div>
         </div>
         <div class="helped-footer">
-          <q-btn
-            to="/start/pick-quasar-flavour"
-            label="Denunciar Usuário"
-            outline
-            color="purple"
-            style="width: 100%"
-          />
+          <div class="row">
+            <q-btn
+              to="/start/pick-quasar-flavour"
+              label="Denunciar Usuário"
+              outline
+              color="purple"
+              style="width: 100%"
+            />
+          </div>
         </div>
       </div>
     </div>

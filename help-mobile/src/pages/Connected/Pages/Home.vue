@@ -1,10 +1,11 @@
 <template>
   <q-page class="flex flex-center">
     <template v-if="state.view === 'list'">
-      <div class="row items-start">
+      <div class="q-pa-md row items-start">
         <q-card
           class="my-card"
           flat bordered
+          style="margin-bottom: 20px"
           v-for="(solicitation, index) in state.mockSolicitations" :key="index"
           @click="setView({view: 'more-details'})"
         >
@@ -38,24 +39,12 @@
             <q-card-actions vertical class="justify-around q-px-md">
               <q-btn flat round color="accent" icon="done" />
               <q-btn flat round color="red" icon="clear" />
-              <a
-                :href="sendWhatsappMessage({
-                  phone: solicitation.helpedContactPhone,
-                  helperName: 'Cleiton',
-                  helpedName: 'Ruan',
-                })"
-                class="link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <q-btn
-                  flat
-                  round
-                  color="primary"
-                  icon="call"
-                  @click="accent"
-                />
-              </a>
+              <q-btn
+                flat
+                round
+                color="primary"
+                icon="call"
+              />
             </q-card-actions>
           </q-card-section>
         </q-card>
@@ -65,7 +54,7 @@
 
     <template v-if="state.view === 'more-details'">
       <div>
-        <view-more-details />
+        <view-more-details @close-details="state.view = 'list'"/>
       </div>
     </template>
   </q-page>
@@ -73,15 +62,12 @@
 
 <script>
 
-import { sendWhatsappMessage } from '../../../Utils/Utils';
-
 export default {
   components: {
     viewMoreDetails: () => import('./components/viewMoreDetails.vue'),
   },
   data() {
     return {
-      sendWhatsappMessage,
       state: {
         view: 'list',
         mockSolicitations: [
