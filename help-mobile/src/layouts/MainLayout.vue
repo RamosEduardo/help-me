@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md" style="padding: 0px">
-    <q-layout view="lHh Lpr lff" container style="height: 100vh">
+  <div style="padding: 0px">
+    <q-layout view="lHh Lpr lff" container style="height: 100vh; width:100%">
       <q-header elevated>
         <q-toolbar style="display: flex; justify-content: space-between;">
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
