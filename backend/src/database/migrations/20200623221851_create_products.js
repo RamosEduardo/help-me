@@ -8,6 +8,7 @@ exports.up = function(knex) {
         table.decimal('weight').notNullable();
         table.decimal('width').notNullable();
         table.decimal('height').notNullable();
+        table.decimal('lenght').notNullable(); // nova tabela
         table.string('pictureProduct').notNullable();
         
         table.string('categories_id');
@@ -15,6 +16,8 @@ exports.up = function(knex) {
           
         table.string('helped_id').notNullable();
         table.foreign('helped_id').references('id').inTable('helpeds');
+
+        table.timestamps();
 
     });
 };

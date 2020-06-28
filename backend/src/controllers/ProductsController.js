@@ -10,7 +10,8 @@ module.exports = {
             description, 
             weight, 
             width, 
-            height, 
+            height,
+            lenght,
             pictureProduct, 
             categories_id 
         } = req.body;
@@ -23,6 +24,7 @@ module.exports = {
             weight,
             width,
             height,
+            lenght,
             pictureProduct,
             categories_id,
             helped_id    
@@ -54,6 +56,7 @@ module.exports = {
             weight, 
             width, 
             height, 
+            lenght,
             pictureProduct, 
             categories_id 
         } = req.body;
@@ -69,6 +72,7 @@ module.exports = {
                 weight,
                 width,
                 height,
+                lenght,
                 pictureProduct,
                 categories_id,    
             });

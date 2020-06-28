@@ -13,6 +13,8 @@ exports.up = (knex) => {
         vehicle.string('helper_id').notNullable();
         vehicle.foreign('helper_id').references('id').inTable('helpers');
 
+        vehicle.timestamps();
+
     });
 };
 

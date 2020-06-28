@@ -1,14 +1,16 @@
 exports.up = function(knex) {
     return knex.schema.createTable('solicitations', (table) => {
         table.increments();
-        table.string('name').notNullable();
+        table.string('title').notNullable();
         table.string('description').notNullable();
         table.decimal('value').notNullable();
-        table.decimal('status').default(0);
+        table.integer('status').default(0); //migrar para integer
+        table.string('withdrawal_time').default(null);
+        table.string('delivery_time').default(null);
+        table.date('delivery_date');
 
         table.string('cargo_id').notNullable();
         table.foreign('cargo_id').references('id').inTable('cargo');
-
         
         table.string('adresses_start_id').notNullable();
         table.foreign('adresses_start_id').references('id').inTable('adresses');
@@ -21,9 +23,25 @@ exports.up = function(knex) {
 
         table.string('helper_id').default(null);
         table.foreign('helper_id').references('id').inTable('helpers');
+
+        table.string('assessments_solicitations_id').notNullable();
+        table.foreign('assessments_solicitations_id').references('id').inTable('assessments_solicitations');
+       
+        table.timestamps();
     });
 };
 
 exports.down = function(knex) {
     return knex.schema.dropTable('solicitations'); 
 };
+
+/* Siginificado dos Status
+   0 - Aberto 
+   1 - Entregador Aceite
+   2 - Entregador Confirmado pelo Solicitante
+   3 - Buscar Produto
+   4 - Produto Retirado
+   5 - Produto Entregue
+   6 - Corrida Finalizada
+   9 - Corrida Inativada
+*/

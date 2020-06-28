@@ -6,9 +6,12 @@ exports.up = (knex) => {
         table.string('helpedPicture').notNullable();
         table.string('documentIdPicture').notNullable();
         table.string('cpfPicture').notNullable();
+        table.boolean('status_validate').default(false); //new
         
         table.string('people_id').notNullable();
         table.foreign('people_id').references('id').inTable('peoples');
+
+        table.timestamps();
 
     });
 };

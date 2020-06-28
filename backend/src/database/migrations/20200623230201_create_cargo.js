@@ -1,7 +1,8 @@
 
 exports.up = function(knex) {
     return knex.schema.createTable('cargo', (table) => {
-        table.increments();      
+        table.string('id').primary(); // alterado
+
         table.integer('amount').default(1);
 
         table.foreign('product_id').references('id').inTable('products');
@@ -10,7 +11,8 @@ exports.up = function(knex) {
         table.foreign('solicitation_id').references('id').inTable('solicitations');
         table.string('solicitation_id').notNullable();
         
-
+        table.timestamps();
+        
     });
 };
 

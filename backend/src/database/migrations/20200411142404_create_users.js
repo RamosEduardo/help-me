@@ -6,6 +6,8 @@ exports.up = (knex) => {
         table.string('senha');
         table.boolean('firstAcess');
         table.boolean('firstAcessPassword');
+        
+        table.timestamps();
     });
 };
 

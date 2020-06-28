@@ -13,6 +13,8 @@ exports.up = function(knex) {
         
         table.string('helped_id').notNullable();
         table.foreign('helped_id').references('id').inTable('helpeds');
+
+        table.timestamps();
     });
 };
 

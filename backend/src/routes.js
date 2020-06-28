@@ -12,6 +12,7 @@ const AddressController = require('./controllers/AddressController');
 const ProductsController = require('./controllers/ProductsController');
 const categoriesController = require('./controllers/categoriesController');
 const vehiclesController = require('./controllers/vehiclesController');
+const cargoController = require('./controllers/cargoController');
 
 
 routes.post('/users', UserController.create);
@@ -40,10 +41,14 @@ routes.get('/helpers', HelpersController.index);
 
 routes.post('/solicitations', SolicitationsController.create);
 routes.get('/solicitations', SolicitationsController.index);
+routes.put('/solicitations/:id', SolicitationsController.update);
+routes.delete('/solicitations/:id', SolicitationsController.delete);
 
-// Routes of Join Solicitation
+// Routes of Join JoinSolicitation
 
-routes.put('/solicitations', JoinSolicitationController.update);
+routes.post('/joinSolicitations/:id', JoinSolicitationController.join);
+routes.put('/joinSolicitations/:id', JoinSolicitationController.accept);
+routes.delete('/joinSolicitations/:id', JoinSolicitationController.decline);
 
 // Routes of Adresses 
 
@@ -73,6 +78,11 @@ routes.post('/vehicles', vehiclesController.create);
 routes.get('/vehicles', vehiclesController.index);
 routes.put('/vehicles', vehiclesController.update);
 routes.delete('/vehicles', vehiclesController.remove);
+
+//Route of Cargo
+
+routes.post('/cargo', cargoController.create);
+routes.get('/cargo', cargoController.index);
 
 
 module.exports = routes;
