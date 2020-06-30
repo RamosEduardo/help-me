@@ -26,6 +26,7 @@ module.exports = {
       documentIdPicture,
       cpfPicture,
       people_id,
+      created_at: Date(), 
     });
     return newPerson[0];
   },
@@ -51,6 +52,7 @@ module.exports = {
       addressDocumentPicture,
       user_id,
       people_id,
+      created_at: Date(),
     });
     return newPersonHelper[0];
   }

@@ -8,7 +8,7 @@ exports.up = function(knex) {
         table.decimal('weight').notNullable();
         table.decimal('width').notNullable();
         table.decimal('height').notNullable();
-        table.decimal('lenght').notNullable(); // nova tabela
+        table.decimal('lenght').notNullable();
         table.string('pictureProduct').notNullable();
         
         table.string('categories_id');

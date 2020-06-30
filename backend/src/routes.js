@@ -13,6 +13,8 @@ const ProductsController = require('./controllers/ProductsController');
 const categoriesController = require('./controllers/categoriesController');
 const vehiclesController = require('./controllers/vehiclesController');
 const cargoController = require('./controllers/cargoController');
+const ReportsController = require('./controllers/ReportsController');
+const AssessmentsController = require('./controllers/AssessmentsController');
 
 
 routes.post('/users', UserController.create);
@@ -83,6 +85,17 @@ routes.delete('/vehicles', vehiclesController.remove);
 
 routes.post('/cargo', cargoController.create);
 routes.get('/cargo', cargoController.index);
+
+//Route of Reports
+
+routes.post('/reports/:id', ReportsController.create);
+routes.get('/reports', ReportsController.index);
+
+//Route of Assessments
+
+routes.post('/assessment/:user_rated_id/solicitation/:solicitation_id', AssessmentsController.create);
+routes.get('/assessment/:user_rated_id', AssessmentsController.index);
+
 
 
 module.exports = routes;

@@ -40,6 +40,7 @@ module.exports = {
                 neighborhood, 
                 city, 
                 state,
+                update_at: Date(),
             });
         if (!people)
             return res.status(400).send('Você não tem permissão para alterar esses dados!');

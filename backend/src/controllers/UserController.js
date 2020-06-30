@@ -93,7 +93,8 @@ module.exports = {
                 email,
                 senha: id,
                 firstAcess:true,
-                firstAcessPassword: true
+                firstAcessPassword: true,
+                created_at: Date(),
             });
     
             return response.json({ id });

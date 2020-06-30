@@ -40,6 +40,7 @@ module.exports = {
                 neighborhood, 
                 city, 
                 state,
+                update_at: Date(),
             });
         if (!people)
             return res.status(400).send('Você não tem permissão para alterar esses dados!');
@@ -73,6 +74,7 @@ module.exports = {
             documentIdPicture,
             cpfPicture,
             people_id: id,
+            created_at: Date(),
           }).then(newPerson => {
             if (!newPerson)
               return res.status(404);

@@ -23,7 +23,8 @@ module.exports = {
             id: id,
             amount,
             product_id,
-            solicitation_id
+            solicitation_id,
+            created_at: Date(),
         });
 
         return res.json({ cargo });

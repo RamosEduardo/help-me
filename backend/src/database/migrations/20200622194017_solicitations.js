@@ -24,8 +24,11 @@ exports.up = function(knex) {
         table.string('helper_id').default(null);
         table.foreign('helper_id').references('id').inTable('helpers');
 
-        table.string('assessments_solicitations_id').notNullable();
-        table.foreign('assessments_solicitations_id').references('id').inTable('assessments_solicitations');
+        table.string('assessments_helper_id').default(null);
+        table.foreign('assessments_helper_id').references('id').inTable('assessments_solicitations');
+
+        table.string('assessments_helped_id').default(null);
+        table.foreign('assessments_helped_id').references('id').inTable('assessments_solicitations');
        
         table.timestamps();
     });

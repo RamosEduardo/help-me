@@ -26,7 +26,8 @@ module.exports = {
             helped_id,
             adresses_start_id,
             adresses_end_id,
-            cargo_id
+            cargo_id,
+            created_at: Date(),
         });
 
         return res.json({ id });
@@ -67,7 +68,8 @@ module.exports = {
                 helped_id,
                 adresses_start_id,
                 adresses_end_id,
-                cargo_id
+                cargo_id,
+                update_at: Date(),
             });
         
 

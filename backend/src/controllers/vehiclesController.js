@@ -22,7 +22,9 @@ module.exports = {
             ano, 
             renavam, 
             capacidade,
-            helper_id    
+            helper_id,
+            created_at: Date(),  
+              
         });
 
         return res.json({ vehicle });
@@ -65,7 +67,8 @@ module.exports = {
                 ano, 
                 renavam, 
                 capacidade,
-                helper_id     
+                helper_id,
+                updated_at: Date(),     
             });
 
         return res.status(200).json({ vehicle });

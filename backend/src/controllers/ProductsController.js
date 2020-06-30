@@ -27,7 +27,8 @@ module.exports = {
             lenght,
             pictureProduct,
             categories_id,
-            helped_id    
+            helped_id,
+            created_at: Date(),    
         });
 
         return res.json({ product });
@@ -74,7 +75,8 @@ module.exports = {
                 height,
                 lenght,
                 pictureProduct,
-                categories_id,    
+                categories_id,
+                updated_at: Date(),   
             });
 
         return res.status(200).json({ product });

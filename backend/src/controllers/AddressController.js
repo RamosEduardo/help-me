@@ -37,7 +37,8 @@ module.exports = {
             complement,
             city,
             state,
-            helped_id: helped_id,   
+            helped_id: helped_id, 
+            created_at: Date(),  
         });
 
         return res.status(200).json({ address });
@@ -86,6 +87,7 @@ module.exports = {
                 complement,
                 city,
                 state,
+                updated_at: Date(),
             });
 
         return res.status(200).json({ address });
