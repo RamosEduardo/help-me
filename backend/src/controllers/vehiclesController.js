@@ -13,6 +13,10 @@ module.exports = {
             capacidade  
         } = req.body;
 
+
+        
+        
+
         const helper_id = req.headers.authorization;
 
         const vehicle = await connection('vehicles').insert({

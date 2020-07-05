@@ -44,6 +44,13 @@ module.exports = {
                 status: 0      
             });
 
+        /*    
+        table.string('adresses_start_id').notNullable();
+        table.foreign('adresses_start_id').references('id').inTable('adresses');
+        */
+
+            
+
         return res.json({ solicitation });
     }
 

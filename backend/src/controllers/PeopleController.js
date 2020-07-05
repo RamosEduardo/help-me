@@ -49,7 +49,7 @@ module.exports = {
 
     async index(req, res) {
         const peoples = await connection('peoples').select('*');
-        return res.json({ peoples })
+        return res.json(peoples)
     },
 
     async create(req, res) {
@@ -72,6 +72,8 @@ module.exports = {
             return res.status(400).send('Faça o login');
         const user = token.split('//');
         const userId = user[0];
+        console.log(userId);
+        
         
         const people = await connection('peoples').insert({
             name, 

@@ -33,7 +33,19 @@ module.exports = {
 
     async index(req, res){
 
-        const cargo = await connection('cargo').select('*');
+        const cargo = await connection('cargo')
+        .join('products', 'products.id', '=', 'product_id')
+        
+        .select([
+            'cargo.*',
+            'products.name',
+            'products.description',
+            'products.weight',
+            'products.width',
+            'products.height',
+            'products.lenght',
+            'products.pictureProduct'
+        ]);
 
         return res.json({ cargo });
 

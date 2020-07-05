@@ -1,12 +1,32 @@
 const connection = require('../database/connection');
 const { index } = require('./HelpedsController');
 const { query } = require('express');
-//const { getUserIdByToken, generateTokenSession } = require('../utils/Utils');
+const image2base64 = require('image-to-base64');
+const { getUserIdByToken, generateTokenSession, getIdPeopleByUser, getHelpedIdByPeopleUser } = require('../utils/Utils');
+const { getPeoplesByUserId } = require('../utils/Peoples');
+const Peoples = require('../utils/Peoples');
+
+
 
 module.exports = {
+
+
     async create(req, res){
 
-        //const { id } = r.params;
+
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
+
+        const helped_id = helped.id;
+
         
 
         const {
@@ -17,16 +37,9 @@ module.exports = {
             neighborhood,
             complement,
             city,
-            state
+            state,
         } = req.body;
 
-       // const token = req.headers.authorization;
-        const helped_id = req.headers.authorization;
-
-       console.log(helped_id);
-
-        //mudar para address
-        
 
         const address = await connection('adresses').insert({
             type,
@@ -38,16 +51,32 @@ module.exports = {
             city,
             state,
             helped_id: helped_id, 
-            created_at: Date(),  
+            created_at: Date()  
         });
 
         return res.status(200).json({ address });
+        
     },
 
 
     async index(req, res){ 
         
-        const helped_id = req.headers.authorization;
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
+
+        const helped_id = helped.id;
+
+
+        //const helped_id = req.headers.authorization;
+
 
         const helpedAdress = await connection('adresses')
             .where('helped_id', helped_id)
@@ -71,7 +100,21 @@ module.exports = {
 
         const {id} = req.params;
 
-        const helped_id = req.headers.authorization;
+        
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
+
+        const helped_id = helped.id;
+
+        //const helped_id = req.headers.authorization;
        
         const address = await connection('adresses')
             .where({
@@ -98,7 +141,21 @@ module.exports = {
         
         const {id} = req.params;
 
-        const helped_id = req.headers.authorization;
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
+
+        const helped_id = helped.id;
+        
+
+       // const helped_id = req.headers.authorization;
 
         const address = await connection('adresses')
             .where({
