@@ -25,6 +25,9 @@ module.exports = {
         const people = await getPeoplesByUserId({userId});  
         const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
 
+        if (!helped)
+        return res.status(404).send('Motorista não cadastrado!');
+
         const helped_id = helped.id;
 
         
@@ -72,6 +75,9 @@ module.exports = {
         const people = await getPeoplesByUserId({userId});  
         const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
 
+        if (!helped)
+        return res.status(404).send('Motorista não cadastrado!');
+
         const helped_id = helped.id;
 
 
@@ -112,6 +118,9 @@ module.exports = {
         const people = await getPeoplesByUserId({userId});  
         const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
 
+        if (!helped)
+        return res.status(404).send('Motorista não cadastrado!');
+
         const helped_id = helped.id;
 
         //const helped_id = req.headers.authorization;
@@ -151,6 +160,9 @@ module.exports = {
 
         const people = await getPeoplesByUserId({userId});  
         const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
+
+        if (!helped)
+        return res.status(404).send('Motorista não cadastrado!');
 
         const helped_id = helped.id;
         

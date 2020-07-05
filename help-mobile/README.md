@@ -27,5 +27,132 @@ See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
 
 # Routes on API
 ```bash
-quasar dev
+// Routes of Adresses 
+
+routes.post('/address', AddressController.create);  token pelo authorisation no headers adiciona novo endereço para o helped logado
+passar no corpo da requisição 
+{
+	"type": "teste1",
+	"zipCode": "9777777",
+	"street": "Gustavo1",
+	"numberHouse": "5001",
+	"neighborhood": "Avai1",
+	"complement": "2 Casa apos madeireira nart",
+	"city": "Guaramirin1",
+	"state": "Santa Catarina1"
+}
+
+routes.get('/address', AddressController.index);    token pelo authorisation no headers seleciona todos os endereços cadastrados para o helped logado
+corpo body
+{
+	"type": "teste1",
+	"zipCode": "9777777",
+	"street": "Gustavo1",
+	"numberHouse": "5001",
+	"neighborhood": "Avai1",
+	"complement": "2 Casa apos madeireira nart",
+	"city": "Guaramirin1",
+	"state": "Santa Catarina1"
+}
+
+
+routes.put('/address/:id', AddressController.update); token pelo authorisation no headers  e o id do endereço que ele deseja atualisar(obs tem que passar o id dos endereços cadastrado pelo helped)
+
+routes.delete('/address/:id', AddressController.remove); token pelo authorisation no headers  e o id do endereço que ele deseja atualisar(obs tem que passar o id dos endereços cadastrado pelo helped)
+
+
+//Route of assesment  -- rota de avaliação  (pesar um pouco mais)
+
+----------------
+routes.post('/assessment/:user_rated_id/solicitation/:solicitation_id', AssessmentsController.create);
+esta rota de avaliação controlar via front quem é o helped e quem é o helper  ´
+passat token pelo headers token, passat o id do avaliado e o id da solicitação
+-------------------
+routes.get('/assessment/:user_rated_id', AssessmentsController.index); aqui ira listar as avaliações que o usuario rescebeu como 
+
+
+----------------
+routes.post('/vehicles', vehiclesController.create);
+token pelo authorisation no headers ele encontra o helper
+
+corpo da requisição Placa e a pk 
+{
+	"placa": "mko-040",
+	"marca": "ford",
+	"modelo": "fiesta", 
+	"ano": "2011", 
+	"renavam": "123456", 
+	"capacidade": "100"  
+}
+-----------
+routes.get('/vehicles', vehiclesController.index);
+token pelo authorisation no headers ele encontra o helper busca os veiculos do helper
+----------
+
+routes.put('/vehicles/:placa', vehiclesController.update);
+http://localhost:3333/vehicles/mko-000
+
+passando placa direto na rota
+token pelo authorisation no headers ele encontra o helper busca os veiculos do helper
+
+
+
+e os vlores a serem alterados no corpo da requisição
+{
+	"placa": "mko-040",
+	"marca": "ford",
+	"modelo": "fiesta", 
+	"ano": "2011", 
+	"renavam": "123456", 
+	"capacidade": "100"  
+}
+
+
+-------------------
+routes.delete('/vehicles/:placa', vehiclesController.remove);
+http://localhost:3333/vehicles/mko-040
+token pelo authorisation no headers para achar o helper_id e na rota passar a placa que vai deletar
+
+//Route of product
+
+routes.post('/products', ProductsController.create);
+token pelo authorisarion no headers para achar o helped
+
+body
+{
+	"name": "teste4",
+	"description": "tes",
+	"weight": 10,
+	"width": 5,
+	"height": 3,
+	"lenght": 4,
+	"pictureProduct": "foto",
+	"categories_id": "1"
+}
+
+------------------------
+routes.get('/products', ProductsController.index);
+token pelo authorisarion no headers para achar o helped
+buscar os produtos cadastrados pelo helped
+--------------------------
+
+routes.put('/products/:id', ProductsController.update);
+token pelo authorisarion no headers para achar o helped
+passatr o id do produto a ter os dados atualizados
+body
+{
+	"name": "teste4",
+	"description": "tes",
+	"weight": 10,
+	"width": 5,
+	"height": 3,
+	"lenght": 4,
+	"pictureProduct": "foto",
+	"categories_id": "1"
+}
+
+routes.delete('/products/:id', ProductsController.remove);
+token pelo authorisarion no headers para achar o helped
+passatr o id do produto a ter os dados deletado
+
 ```

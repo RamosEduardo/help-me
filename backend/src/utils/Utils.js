@@ -67,7 +67,7 @@ module.exports = {
     .where('people_id',peopleId)
     .select('id').first();
 
-    console.log(helpers);
+    console.log('helper função', helpers);
        
     return helpers;
   },

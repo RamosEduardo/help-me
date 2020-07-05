@@ -1,9 +1,28 @@
 const connection = require('../database/connection');
-
+const { getUserIdByToken, generateTokenSession, getHelpedIdByPeopleUser, getHelperIdByPeopleUser } = require('../utils/Utils');
+const { getPeoplesByUserId } = require('../utils/Peoples');
+const Peoples = require('../utils/Peoples');
 
 module.exports = {
     async create(req, res){
         
+    
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helper = await getHelperIdByPeopleUser({ peopleId: people.id });     
+
+        if (!helper)
+            return res.status(404).send('Motorista não cadastrado!');
+        
+        const helper_id = helper.id;
+
         const { 
             placa, 
             marca, 
@@ -13,11 +32,16 @@ module.exports = {
             capacidade  
         } = req.body;
 
+        const checkPlaca = await connection('vehicles')
+        .select('placa')
+        .where('placa', placa)
+        .first()
 
-        
-        
+        console.log('check',checkPlaca);
 
-        const helper_id = req.headers.authorization;
+        if(checkPlaca)
+            return res.status(404).send('Placa já cadastrada!');
+        
 
         const vehicle = await connection('vehicles').insert({
             placa, 
@@ -26,7 +50,7 @@ module.exports = {
             ano, 
             renavam, 
             capacidade,
-            helper_id,
+            helper_id: helper_id,
             created_at: Date(),  
               
         });
@@ -36,7 +60,21 @@ module.exports = {
 
     async index(req, res){
         
-        const helper_id = req.headers.authorization;
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helper = await getHelperIdByPeopleUser({ peopleId: people.id });     
+
+        if (!helper)
+            return res.status(404).send('Motorista não cadastrado!');
+        
+        const helper_id = helper.id;
 
         const vehicle = await connection('vehicles')
         .select('*')
@@ -45,10 +83,38 @@ module.exports = {
     },
 
     async update(req, res){
+
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helper = await getHelperIdByPeopleUser({ peopleId: people.id });     
+
+        if (!helper)
+            return res.status(404).send('Motorista não cadastrado!');
         
-        const {placa} = req.query;
+        const helper_id = helper.id;
         
-        const helper_id = req.headers.authorization;
+        const {placa} = req.params;
+        console.log(placa);
+        
+
+        const checkExistPlaca = await connection('vehicles')
+        .select('placa')
+        .where('placa', placa)
+        .first()
+
+        if (!checkExistPlaca)
+            return res.status(404).send('Placa não cadastrada!');
+
+        console.log('check',checkExistPlaca);
+        
+        //const helper_id = req.headers.authorization;
 
         const { 
             newPlaca, 
@@ -58,6 +124,20 @@ module.exports = {
             renavam, 
             capacidade  
         } = req.body;
+
+        
+        const checkPlaca = await connection('vehicles')
+        .select('placa')
+        .where('placa', newPlaca)
+        .first()
+
+        console.log('check',checkPlaca);
+
+        if(checkPlaca)
+            return res.status(404).send('Placa já cadastrada!');
+        
+
+
 
         const vehicle = await connection('vehicles')
             .where({
@@ -81,9 +161,37 @@ module.exports = {
 
     async remove(req, res){ 
         
-        const {placa} = req.query;
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
 
-        const helper_id = req.headers.authorization;
+        const people = await getPeoplesByUserId({userId});  
+        const helper = await getHelperIdByPeopleUser({ peopleId: people.id });     
+
+        if (!helper)
+            return res.status(404).send('Motorista não cadastrado!');
+        
+        const helper_id = helper.id;
+
+        const {placa} = req.params;
+
+          
+        const checkPlaca = await connection('vehicles')
+        .select('placa')
+        .where({
+            'placa': placa,
+            'helper_id': helper_id                      
+        })
+        .first()
+       
+        if (!checkPlaca)
+            return res.status(404).send('Placa não cadastrada!');
+        
+        //const helper_id = req.headers.authorization;
 
         const vehicle = await connection('vehicles')
             .where({

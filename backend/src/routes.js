@@ -78,8 +78,8 @@ routes.delete('/categories/:id', categoriesController.remove);
 
 routes.post('/vehicles', vehiclesController.create);
 routes.get('/vehicles', vehiclesController.index);
-routes.put('/vehicles', vehiclesController.update);
-routes.delete('/vehicles', vehiclesController.remove);
+routes.put('/vehicles/:placa', vehiclesController.update);
+routes.delete('/vehicles/:placa', vehiclesController.remove);
 
 //Route of Cargo
 
