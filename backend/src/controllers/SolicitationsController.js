@@ -1,6 +1,9 @@
 const connection = require('../database/connection');
 const { index } = require('./HelpedsController');
 const { update } = require('../database/connection');
+const { getUserIdByToken, generateTokenSession, getIdPeopleByUser, getHelpedIdByPeopleUser } = require('../utils/Utils');
+const { getPeoplesByUserId } = require('../utils/Peoples');
+const Peoples = require('../utils/Peoples');
 
 // Para criar o id da corrida vamos ter que importar a utils
 // passar de parametro ({ value: ´${now}//${helped_id} ´ })
@@ -8,6 +11,23 @@ const { update } = require('../database/connection');
 
 module.exports = {
     async create(req, res){
+       
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
+
+        if (!helped)
+        return res.status(404).send('Motorista não cadastrado!');
+
+        const helped_id = helped.id;
+            
         const{ 
             title, 
             description, 
@@ -17,9 +37,11 @@ module.exports = {
             cargo_id
         } = req.body;
 
-        const helped_id = req.headers.authorization;
-        // const now = new Date();
-        const [id] = await connection('solicitations').insert({
+        //const helped_id = req.headers.authorization;
+        //const now = new Date();
+
+
+        const solicitation = await connection('solicitations').insert({
             title, 
             description,
             value,
@@ -30,26 +52,15 @@ module.exports = {
             created_at: Date(),
         });
 
-        return res.json({ id });
+        return res.status(200).json('Nova Solicitação criada!');
         
     },
 
     async index(req, res){
         const solicitations = await connection('solicitations')
-        .select(
-            'id',
-            'title',
-            'description',
-            'value',
-            'helped_id',
-            'adresses_start_id',
-            'adresses_end_id',
-            'cargo_id',
-            'created_at',
-        )
-        .where()
+        .select('*')
        
-
+        return res.status(200).json(solicitations);
 
 
         /*
@@ -79,7 +90,6 @@ module.exports = {
             
         ]);
 
-        */
 
         return res.json({
             ...solicitations,
@@ -87,12 +97,15 @@ module.exports = {
             helped: helped,
             adresses: adresses,
         });
+        */
+
+        
 
 
-{
+
    
     
-}
+
         
 
 
@@ -126,6 +139,23 @@ module.exports = {
 
 
     async update(req, res){
+       
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
+
+        if (!helped)
+            return res.status(404).send('Motorista não cadastrado!');
+
+        const helped_id = helped.id;
+       
         const{ 
             title, 
             description, 
@@ -135,10 +165,42 @@ module.exports = {
             cargo_id
         } = req.body;
 
-        const helped_id = req.headers.authorization;
+        //const helped_id = req.headers.authorization;
 
         const {id} = req.params;
+
+        console.log('idRecebido',id);
+        
+
+        const checkSolicitation = await connection('solicitations')
+            .select('id')
+            .where({
+                id: id,
+                helped_id: helped_id
+            })
+            .first()
+
+        console.log(checkSolicitation);
+        
+        
+        if (!checkSolicitation)
+            return res.status(404).send('Solicitação não encontrada!');
+
+        const checkStatus = await connection('solicitations')
+        .select('id')
+        .where({
+            id: id,
+            helper_id: null,
+            status: 0,
+        })
+        .first()
+
+        console.log('Check',checkStatus);
+        
+        if (!checkStatus)
+            return res.status(404).send('Solicitação não está em situação Aberta, não pode ser alterada.')
      
+
         const solicitations = await connection('solicitations')
             .where  ({
                 id: id,
@@ -154,20 +216,60 @@ module.exports = {
                 adresses_start_id,
                 adresses_end_id,
                 cargo_id,
-                update_at: Date(),
+                updated_at: Date(),
             });
         
 
-        return res.json(solicitations);
+        return res.status(200).json('Solicitação atualisada');
 
     },
 
 
     async delete (req, res){
        
-        const helped_id = req.headers.authorization;
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
+
+        const people = await getPeoplesByUserId({userId});  
+        const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
+
+        if (!helped)
+            return res.status(404).send('Motorista não cadastrado!');
+
+        const helped_id = helped.id;
 
         const {id} = req.params;
+
+        const checkSolicitation = await connection('solicitations')
+        .select('id')
+        .where({
+            id: id,
+            helped_id: helped_id
+        })
+        .first()
+
+   
+        if(!checkSolicitation)
+            return res.status(404).send('Solicitação não encontrada!');
+
+
+        const checkStatus = await connection('solicitations')
+            .select('id')
+            .where({
+                id: id,
+                helper_id: null,
+                status: 0
+            })
+            .first()
+
+        if(!checkStatus)
+            return res.status(404).send('Solicitação não está em situação Aberta, não pode ser excluida.')
+
 
         const solicitations = await connection('solicitations')
         .where  ({
@@ -178,7 +280,7 @@ module.exports = {
         })  
         .delete('*');
         
-        return res.json(solicitations);
+        return res.status(200).json('Solicitação excluida!');
 
     }
 
