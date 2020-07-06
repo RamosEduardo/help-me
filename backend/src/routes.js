@@ -83,8 +83,9 @@ routes.delete('/vehicles/:placa', vehiclesController.remove);
 
 //Route of Cargo
 
-routes.post('/cargo', cargoController.create);
-routes.get('/cargo', cargoController.index);
+routes.post('/cargo/:solicitation_id', cargoController.create);
+routes.get('/cargo/:solicitation_id', cargoController.index);
+routes.delete('/cargo/:solicitation_id/:product_id', cargoController.remove);
 
 //Route of Reports
 

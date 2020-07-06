@@ -127,7 +127,7 @@ module.exports = {
                 height,
                 lenght,
                 pictureProduct,
-                categories_id,
+                categories_id,  //mandar a categoria por string por enquanto
                 updated_at: Date(),   
             });
 

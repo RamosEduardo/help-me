@@ -57,6 +57,11 @@ module.exports = {
     },
 
     async index(req, res){
+
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+
         const solicitations = await connection('solicitations')
         .select('*')
        

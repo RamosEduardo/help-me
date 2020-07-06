@@ -176,7 +176,7 @@ module.exports = {
             })
             .delete('*');
        
-           return res.status(200).json({ address });
+           return res.status(200).send('Endereço excluido');
     }
 
 };

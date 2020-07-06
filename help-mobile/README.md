@@ -155,4 +155,47 @@ routes.delete('/products/:id', ProductsController.remove);
 token pelo authorisarion no headers para achar o helped
 passatr o id do produto a ter os dados deletado
 
+Route of solicitations
+
+routes.post('/solicitations', SolicitationsController.create);
+token pelo authorisarion no headers para achar o helped
+
+
+routes.get('/solicitations', SolicitationsController.index);
+traz todas as solicitações validar sem possui o token no authorisation pra verificar se usuario logado
+
+routes.put('/solicitations/:id', SolicitationsController.update);
+token pelo authorisarion no headers para achar o helped
+e passa o id pela rota
+
+
+
+routes.delete('/solicitations/:id', SolicitationsController.delete);
+token pelo authorisarion no headers para achar o helped
+e passa o id pela rota
+
+
+Route of Cargo
+routes.post('/cargo/:solicitation_id', cargoController.create);
+token pelo authorisarion no headers para achar o helped
+e passa o id da solicitação na rota
+
+no corpo 
+    id: product_id,
+	helped_id: helped_id
+
+
+
+routes.get('/cargo/:solicitation_id', cargoController.index);
+token pela rota so pra ver se ta logado
+passa o id da solicitação pela rota 
+usuario so podera a carga de itns ligada a essa solicitação 
+(seria bom controlar pelo front qual id da solicitação ele ta tentando ver)
+
+routes.delete('/cargo/:solicitation_id/:product_id', cargoController.remove);
+token pelo authorisation para pegar o helped
+passar id da solicitação na rota 
+passar id do produto a ser excluido da carga.
+
+
 ```
