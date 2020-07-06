@@ -14,7 +14,7 @@
 <script>
 
 import api from '../../services/api';
-import { getUserIdByToken } from '../../utils/utils';
+import { getUserIdByToken } from '../../Utils/Utils';
 import logoImg from '../../assets/logo.svg';
 
 export default {

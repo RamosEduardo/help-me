@@ -7,10 +7,9 @@
           flat bordered
           style="margin-bottom: 20px"
           v-for="(solicitation, index) in state.mockSolicitations" :key="index"
-          @click="setView({view: 'more-details'})"
         >
           <q-card-section horizontal>
-            <div class="solicitation-preview">
+            <div class="solicitation-preview" @click="setView({view: 'more-details'})">
               <div style="width: 200px">
                 <h5 class="solicitation-title">
                   {{ solicitation.title }}
@@ -37,13 +36,26 @@
               </div>
             </div>
             <q-card-actions vertical class="justify-around q-px-md">
-              <q-btn flat round color="accent" icon="done" />
-              <q-btn flat round color="red" icon="clear" />
+              <q-btn
+                flat
+                round
+                color="accent"
+                icon="done"
+                @click="joinSolicitation(solicitation)"
+              />
+              <q-btn
+                flat
+                round
+                color="red"
+                icon="clear"
+                @click="recuseSolicitation(solicitation)"
+              />
               <q-btn
                 flat
                 round
                 color="primary"
                 icon="call"
+                @click="openContact"
               />
             </q-card-actions>
           </q-card-section>
@@ -122,6 +134,12 @@ export default {
   methods: {
     setView({ view = 'list' }) {
       this.state.view = view;
+    },
+    joinSolicitation(solicitation) {
+      console.log('Join', solicitation);
+    },
+    recuseSolicitation(solicitation) {
+      console.log('Recusou', solicitation);
     },
   },
 };
