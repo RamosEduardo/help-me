@@ -34,7 +34,6 @@ module.exports = {
             value, 
             adresses_start_id, 
             adresses_end_id, 
-            cargo_id
         } = req.body;
 
         //const helped_id = req.headers.authorization;
@@ -48,7 +47,6 @@ module.exports = {
             helped_id,
             adresses_start_id,
             adresses_end_id,
-            cargo_id,
             created_at: Date(),
         });
 

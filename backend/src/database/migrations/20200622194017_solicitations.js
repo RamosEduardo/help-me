@@ -9,7 +9,7 @@ exports.up = function(knex) {
         table.string('delivery_time').default(null);
         table.date('delivery_date');
 
-        table.string('cargo_id').notNullable();
+        table.string('cargo_id').default(null);
         table.foreign('cargo_id').references('id').inTable('cargo');
         
         table.string('adresses_start_id').notNullable();

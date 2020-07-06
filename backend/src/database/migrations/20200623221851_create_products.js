@@ -10,10 +10,12 @@ exports.up = function(knex) {
         table.decimal('height').notNullable();
         table.decimal('lenght').notNullable();
         table.string('pictureProduct').notNullable();
-        
+        table.string('categories_id').notNullable();
+        /*
         table.string('categories_id');
         table.foreign('categories_id').references('id').inTable('product_categories');
-          
+        */
+
         table.string('helped_id').notNullable();
         table.foreign('helped_id').references('id').inTable('helpeds');
 

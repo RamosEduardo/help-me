@@ -30,12 +30,13 @@ module.exports = {
             .select('id')
             .where({
                 id: solicitation_id,
-                helped_id: helped_id
+                helped_id: helped_id,
+                status: 0
             })
             .first()
 
         if(!checkSolicitation)
-            return res.status(404).send('Solicitação informada não pertence ao solicitante!');
+            return res.status(404).send('Solicitação informada não pertence ao solicitante! ou já está iniciada.');
 
 
         const{
@@ -71,6 +72,15 @@ module.exports = {
             solicitation_id,
             created_at: Date(),
         });
+
+        const cargoSolicitation = await connection('solicitations')
+        .update({
+            cargo_id: id
+        })
+        .where({
+            id: solicitation_id
+        })
+
 
         return res.status(200).send('Produto inserido na carga!');
 
@@ -145,14 +155,15 @@ module.exports = {
         .select('id')
         .where({
             id: solicitation_id,
-            helped_id: helped_id
+            helped_id: helped_id,
+            status: 0
         })
         .first()
 
         console.log(checkSolicitation);
         
         if(!checkSolicitation)
-            return res.status(404).send('Solicitação informada não pertence ao solicitante!');
+            return res.status(404).send('Solicitação informada não pertence ao solicitante! ou já esta iniciada.');
 
 
         const checkProduct = await connection('products')

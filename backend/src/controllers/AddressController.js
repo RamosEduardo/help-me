@@ -119,10 +119,37 @@ module.exports = {
         const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
 
         if (!helped)
-        return res.status(404).send('Motorista não cadastrado!');
+         return res.status(404).send('Motorista não cadastrado!');
 
         const helped_id = helped.id;
 
+       
+        const checkSolicitationStatus = await connection('solicitations')
+            .select('*')
+            .where({
+                adresses_start_id: id,
+                status: 0
+            })
+            .first()
+
+        console.log(checkSolicitationStatus);
+
+        if(!checkSolicitationStatus)
+            return res.status(404).send('Endereço já esta em uso! Não pode ser alterado.');
+
+
+        checkSolicitationStatus = await connection('solicitations')
+        .select('*')
+        .where({
+            adresses_end_id: id,
+            status: 0
+        })
+        .first()
+
+        if(!checkSolicitationStatus)
+            return res.status(404).send('Endereço já esta em uso! Não pode ser alterado.');
+        
+    
         //const helped_id = req.headers.authorization;
        
         const address = await connection('adresses')
@@ -165,6 +192,32 @@ module.exports = {
         return res.status(404).send('Motorista não cadastrado!');
 
         const helped_id = helped.id;
+
+
+        const checkSolicitationStatus = await connection('solicitations')
+            .select('*')
+            .where({
+                adresses_start_id: id,
+                status: 0
+            })
+            .first()
+
+        console.log(checkSolicitationStatus);
+
+        if(!checkSolicitationStatus)
+            return res.status(404).send('Endereço já esta em uso! Não pode ser alterado.');
+
+
+        checkSolicitationStatus = await connection('solicitations')
+        .select('*')
+        .where({
+            adresses_end_id: id,
+            status: 0
+        })
+        .first()
+
+        if(!checkSolicitationStatus)
+            return res.status(404).send('Endereço já esta em uso! Não pode ser alterado.');
         
 
        // const helped_id = req.headers.authorization;

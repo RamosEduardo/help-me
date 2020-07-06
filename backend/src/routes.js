@@ -90,7 +90,7 @@ routes.delete('/cargo/:solicitation_id/:product_id', cargoController.remove);
 //Route of Reports
 
 routes.post('/reports/:id', ReportsController.create);
-routes.get('/reports', ReportsController.index);
+routes.get('/reports/:id', ReportsController.index);
 
 //Route of Assessments
 

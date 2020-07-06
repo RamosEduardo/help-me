@@ -159,6 +159,19 @@ Route of solicitations
 
 routes.post('/solicitations', SolicitationsController.create);
 token pelo authorisarion no headers para achar o helped
+(temos um problema referente ao cargo id ) primeiro criar a solicitação com o cargo id em branco
+
+corpo da req
+
+title": "Trrtar1 ",
+"description": "100 tijolos",
+"value": 50.00,
+"adresses_start_id": "10",
+"adresses_end_id": "2",
+"cargo_id": "frágil
+
+depois chamar o metodo para criar uma carga quando for o create ele cria uma carga com um produto e adiciona na tabela solicitação o cargo_id 
+
 
 
 routes.get('/solicitations', SolicitationsController.index);
@@ -197,5 +210,17 @@ token pelo authorisation para pegar o helped
 passar id da solicitação na rota 
 passar id do produto a ser excluido da carga.
 
+
+
+routes.post('/reports/:id', ReportsController.create);
+token pelo authorisation para pegar o user que esta reportando
+e passar o id do usuario reportado pela rota
+
+routes.get('/reports/id', ReportsController.index);
+pegar todos os repotes que determinado usuario teve
+
+token pra saber quem ta pesquisando ta logado
+
+passar o id do usuario reportado pela rota
 
 ```
