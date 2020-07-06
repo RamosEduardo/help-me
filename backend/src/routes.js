@@ -42,7 +42,7 @@ routes.get('/helpers', HelpersController.index);
 // Routes of Solicitations
 
 routes.post('/solicitations', SolicitationsController.create);
-routes.get('/solicitations', SolicitationsController.index);
+routes.get('/solicitations/:id', SolicitationsController.index);
 routes.put('/solicitations/:id', SolicitationsController.update);
 routes.delete('/solicitations/:id', SolicitationsController.delete);
 

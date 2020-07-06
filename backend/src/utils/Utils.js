@@ -16,26 +16,6 @@ module.exports = {
 
   },
 
-  /*
-  async getIdPeopleByUser(userId){
-    const userId = userId;
-    console.log('dentro da função', userId);
-    
-    if (!userId)
-      return undefined;
-    
-  
-    const {id} = await connection('peoples')
-    .where('user_id',userId)
-    .select('id').first();
-
-    
-    console.log('id dentro da função',id);
-    return id;
-    
-  },
-  */
-
   
   generateTokenSession({value}) {
 

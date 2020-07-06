@@ -36,6 +36,40 @@ module.exports = {
             adresses_end_id, 
         } = req.body;
 
+        if(adresses_start_id === adresses_end_id)
+            return res.status(404).send('Endereço de entrega é igual o endereço de inicio!');
+
+
+        const solicitationAdressesStart = await connection('adresses')
+        .select('*')
+        .where({
+            id: adresses_start_id,
+            helped_id: helped_id
+        })
+        .first()
+
+        
+        console.log('startAddress',solicitationAdressesStart);
+        if(!solicitationAdressesStart)
+            return res.status(404).send('Endereço de inicio invalido!');    
+
+
+
+        const solicitationAdressesEnd = await connection('adresses')
+            .select('*')
+            .where({
+                id: adresses_end_id,
+                helped_id: helped_id     
+            })
+            .first()
+        
+        console.log('startAddress',solicitationAdressesEnd);
+        if(!solicitationAdressesEnd)
+            return res.status(404).send('Endereço de entrega invalido!');   
+
+
+
+
         //const helped_id = req.headers.authorization;
         //const now = new Date();
 
@@ -60,10 +94,104 @@ module.exports = {
         if (!token)
             return res.status(400).send('Faça o login');
 
-        const solicitations = await connection('solicitations')
-        .select('*')
-       
-        return res.status(200).json(solicitations);
+        const {id} = req.params;
+
+        const solicitation = await connection('solicitations')
+            .select()
+            .where({
+                id: id
+            })
+            .first()
+               
+
+        if(!solicitation)
+            return res.status(404).send('Solicitação não encontrada!');
+
+       /*
+        const solicitationCargo = await connection('cargo')
+            .select('*')
+            .where({
+                solicitation_id: id
+            })
+            .first()
+*/
+            const solicitationCargo = await connection('cargo')
+            .join('products', 'products.id', '=', 'product_id')
+            
+            .select([
+                'cargo.*',
+                'products.name',
+                'products.description',
+                'products.weight',
+                'products.width',
+                'products.height',
+                'products.lenght',
+                'products.pictureProduct',
+            ])
+            .where({
+                solicitation_id: id
+    
+            })
+
+        
+        const startAddress = solicitation.adresses_start_id;  
+        console.log('startAdresse',startAddress);
+        
+        const solicitationAdressesStart = await connection('adresses')
+            .select('*')
+            .where({
+                id: startAddress
+            })
+            .first()
+
+
+        const endAddress = solicitation.adresses_end_id;
+        console.log('endAddress',endAddress);
+        
+        const solicitationAdressesEnd = await connection('adresses')
+            .select('*')
+            .where({
+                id: endAddress     
+            })
+            .first()
+
+        const helpedId = solicitation.helped_id;
+        console.log('helpedid',helpedId);
+        
+        const solicitationHelped = await connection('helpeds')
+            .select('*')
+            .where({
+                id: helpedId
+            })
+            .first()
+
+        const helperId = solicitation.helper_id;
+        console.log('helper',helperId);
+        
+        const solicitationHelper = await connection('helpers')
+            .select('*')
+            .where({
+                id: helperId
+            })
+            .first()
+
+        
+        console.log(solicitation);
+
+        
+            
+            
+        
+        
+        return res.status(200).json([
+            solicitation,
+            solicitationCargo,
+            solicitationAdressesStart,
+            solicitationAdressesEnd,
+            solicitationHelped,
+            solicitationHelper
+        ]);
+          
 
 
         /*
@@ -173,6 +301,40 @@ module.exports = {
         const {id} = req.params;
 
         console.log('idRecebido',id);
+
+
+        
+        if(adresses_start_id === adresses_end_id)
+            return res.status(404).send('Endereço de entrega é igual o endereço de inicio!');
+
+
+        const solicitationAdressesStart = await connection('adresses')
+        .select('*')
+        .where({
+            id: adresses_start_id,
+            helped_id: helped_id
+        })
+        .first()
+
+        
+        console.log('startAddress',solicitationAdressesStart);
+        if(!solicitationAdressesStart)
+            return res.status(404).send('Endereço de inicio invalido!');    
+
+
+
+        const solicitationAdressesEnd = await connection('adresses')
+            .select('*')
+            .where({
+                id: adresses_end_id,
+                helped_id: helped_id     
+            })
+            .first()
+        
+        console.log('startAddress',solicitationAdressesEnd);
+        if(!solicitationAdressesEnd)
+            return res.status(404).send('Endereço de entrega invalido!');   
+
         
 
         const checkSolicitation = await connection('solicitations')
