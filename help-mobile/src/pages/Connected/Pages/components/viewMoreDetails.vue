@@ -13,7 +13,7 @@
         <q-fab-action
           label-position="left"
           color="accent"
-          @click="close()"
+          @click.native="close()"
           icon="arrow_back_ios"
           style="margin-right: 30px; z-index: 1000"
         />
