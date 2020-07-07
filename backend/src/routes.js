@@ -100,7 +100,8 @@ routes.get('/reports/:id', ReportsController.index);
 
 //Route of Assessments
 
-routes.post('/assessment/:user_rated_id/solicitation/:solicitation_id', AssessmentsController.create);
+routes.post('/assessment/:user_rated_id/solicitation/:solicitation_id', AssessmentsController.helpedEvaluator);
+routes.put('/assessment/:user_rated_id/solicitation/:solicitation_id', AssessmentsController.helperEvaluator);
 routes.get('/assessment/:user_rated_id', AssessmentsController.index);
 
 
