@@ -1,11 +1,14 @@
 <template>
   <q-page class="flex flex-center">
     <div class="content-login">
-      <!-- <section>
+      <section v-if="state.view === 'create-person'">
         <form-create-person />
-      </section> -->
-      <section>
+      </section>
+      <section v-if="state.view === 'home-page'">
         <home />
+      </section>
+      <section v-if="state.view === 'vehicles'">
+        <vehicles />
       </section>
     </div>
   </q-page>
@@ -21,7 +24,7 @@ export default {
   data() {
     return {
       state: {
-        view: 'home',
+        view: 'vehicles',
       },
       logoImg,
     };
@@ -29,6 +32,7 @@ export default {
   components: {
     // FormCreatePerson: () => import('./Pages/FormCreatePerson.vue'),
     Home: () => import('./Pages/Home.vue'),
+    Vehicles: () => import('./Pages/Vehicles/Vehicles.vue'),
   },
   methods: {
     async checkFirstAccess() {
