@@ -15,6 +15,7 @@ const vehiclesController = require('./controllers/vehiclesController');
 const cargoController = require('./controllers/cargoController');
 const ReportsController = require('./controllers/ReportsController');
 const AssessmentsController = require('./controllers/AssessmentsController');
+const StatusSolicitationController = require('./controllers/StatusSolicitationController');
 
 
 routes.post('/users', UserController.create);
@@ -51,6 +52,11 @@ routes.delete('/solicitations/:id', SolicitationsController.delete);
 routes.post('/joinSolicitations/:id', JoinSolicitationController.join);
 routes.put('/joinSolicitations/:id', JoinSolicitationController.accept);
 routes.delete('/joinSolicitations/:id', JoinSolicitationController.decline);
+
+// Routes of Status Solicitation
+
+routes.post('/statusSolicitations/:id', StatusSolicitationController.start);
+routes.put('/statusSolicitations/:id', StatusSolicitationController.end);
 
 // Routes of Adresses 
 
