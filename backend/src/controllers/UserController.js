@@ -2,6 +2,7 @@ const connection = require('../database/connection');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
 const { getUserIdByToken, generateTokenSession } = require('../utils/Utils');
+const { NOTFOUND } = require('dns');
 
 module.exports = {
 
@@ -45,16 +46,14 @@ module.exports = {
     },
 
     async rememberPassword(request, response) {
-        
         const { email } = request.body;
         
         const user = await connection('users')
             .where('email',email)
             .select('*')
             .first();
-        
+        console.log('USER ', user);
         if (user) {
-            
             user.senha = crypto.randomBytes(4).toString('HEX');
             console.log(user.senha);
             
@@ -66,12 +65,12 @@ module.exports = {
                 if (!send) {
                     return response.status(400).send('Falhou');
                 } else {
-                    return response.status(200).send('Enviou').json(user.senha);
+                    return response.status(200).send('Enviou').json({type: 'SUCCESS', data: user.senha});
                 }
             });
             
         } else {
-            return response.status(404).send('Email não encontrado! Cadastre-se');
+            return response.json({ type: 'NOTFOUND', msg: 'Email não encontrado! Cadastre-se' });
         }
         
 
@@ -85,7 +84,7 @@ module.exports = {
             .first();
 
         if (user_email) {
-            return response.status(409).json({ error: 'E-mail já cadastrado!' });
+            return response.json({ type: 'error', error: 'E-mail já cadastrado!' });
         } else {
             const id = crypto.randomBytes(4).toString('HEX');
             await connection('users').insert({
