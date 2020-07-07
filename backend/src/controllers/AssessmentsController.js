@@ -6,11 +6,16 @@ module.exports = {
 
     async create(req, res){
 
-        const token = new Buffer(req.headers.token, "base64").toString("ascii");
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
         if (!token)
             return res.status(400).send('Faça o login');
+       
+        const userId = getUserIdByToken(token);
+        if (!userId)
+            return res.status(400).send('Faça o login');
 
-        const user_evaluator_id = req.headers.authorization;
+        const user_evaluator_id = await getPeoplesByUserId({userId}); 
+
 
         const{
             user_rated_id,
