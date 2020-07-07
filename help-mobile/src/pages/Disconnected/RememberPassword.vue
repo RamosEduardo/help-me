@@ -1,27 +1,24 @@
 <template>
   <q-page class="flex" style="justify-content: center">
     <div class="content-login">
-      <section>
-        <div class="section-description">
-          <h4>Cadastre-se</h4>
-          <span class="label">
-            Seja um parceiro da rede colaborativa consciente!
-          </span>
-        </div>
-
-      </section>
-
+      <div class="section-description">
+        <h4>Esqueceu sua senha? :(</h4>
+        <span class="label">
+          Não faz mal, enviamos uma novinha para você! :D
+        </span>
+      </div>
       <form>
         <input
+          style="margin-top: 20px"
           placeholder="Seu Email"
-          v-model="user"
+          v-model="email"
         />
         <q-btn
           align="around"
           class="btn-fixed-width button-login"
           color="primary"
-          label="Criar"
-          @click="create()"
+          label="Enviar"
+          @click="rememberPassword()"
         />
       </form>
     </div>
@@ -30,13 +27,10 @@
 
 <script>
 
-import api from '../../services/api';
 import logoImg from '../../assets/logo.svg';
+import api from '../../services/api';
 
 export default {
-  props: {
-    err: { type: String, default: '' },
-  },
   computed: {
     error: {
       get() {
@@ -49,36 +43,34 @@ export default {
   },
   data() {
     return {
-      user: '',
+      email: '',
       logoImg,
     };
   },
+  props: {
+    err: { type: String, default: '' },
+  },
   methods: {
-    async create() {
-      const ret = await api.post('/users', { email: this.user });
-      if (ret.data.id && !ret.data.type) {
-        this.error = `Cadastrado com sucesso, seu id: ${ret.data.id}`;
-      } else if (ret.data.type === 'error') {
-        this.error = 'E-mail já existe! Tente novamente!';
+    async rememberPassword() {
+      const ret = await api.put('/users', { email: this.email });
+      if (ret.data.type === 'NOTFOUND') {
+        this.error = ret.data.msg;
       }
     },
   },
 };
 </script>
-
-<style lang="scss">
+<style lang="scss" scoped>
   .content-login {
     width: 80%;
+    margin-top: 50px;
     .logo-container {
       display: flex;
       justify-content: center;
     };
     .button-login {
-      margin-top: 10px;
+      margin-top: 30px;
       width: 100%;
-    }
-    .section-description {
-      margin: 20px 0px 20px 0px;
     }
   };
 </style>
