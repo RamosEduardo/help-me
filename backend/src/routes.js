@@ -44,8 +44,10 @@ routes.get('/helpers', HelpersController.index);
 
 routes.post('/solicitations', SolicitationsController.create);
 routes.get('/solicitations/:id', SolicitationsController.index);
+routes.get('/solicitations', SolicitationsController.indexAll);
 routes.put('/solicitations/:id', SolicitationsController.update);
 routes.delete('/solicitations/:id', SolicitationsController.delete);
+
 
 // Routes of Join JoinSolicitation
 

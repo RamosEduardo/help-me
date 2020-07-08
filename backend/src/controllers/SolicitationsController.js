@@ -107,14 +107,7 @@ module.exports = {
         if(!solicitation)
             return res.status(404).send('Solicitação não encontrada!');
 
-       /*
-        const solicitationCargo = await connection('cargo')
-            .select('*')
-            .where({
-                solicitation_id: id
-            })
-            .first()
-*/
+      
             const solicitationCargo = await connection('cargo')
             .join('products', 'products.id', '=', 'product_id')
             
@@ -174,14 +167,7 @@ module.exports = {
                 id: helperId
             })
             .first()
-
-        
-        console.log(solicitation);
-
-        
-            
-            
-        
+     
         
         return res.status(200).json([
             solicitation,
@@ -192,79 +178,6 @@ module.exports = {
             solicitationHelper
         ]);
           
-
-
-        /*
-            ('adresses', 'adresses.id', '=', 'adresses_start_id')
-         
-        
-        .select([
-            'solicitations.*',
-            //adress start
-            'adresses.type              as  adresses_start_type',
-            'adresses.zipCode           as  adresses_start_zipCode',
-            'adresses.street            as  adresses_start_street',
-            'adresses.numberHouse       as  adresses_start_numberHouse',
-            'adresses.neighborhood      as  adresses_start_neighborhood',
-            'adresses.complement        as  adresses_start_complement',
-            'adresses.city              as  adresses_start_city',
-            'adresses.state             as  adresses_start_state',
-            //adress end
-            'adresses.type              as  adresses_end_type',
-            'adresses.zipCode           as  adresses_end_zipCode',
-            'adresses.street            as  adresses_end_street',
-            'adresses.numberHouse       as  adresses_end_numberHouse',
-            'adresses.neighborhood      as  adresses_end_neighborhood',
-            'adresses.complement        as  adresses_end_complement',
-            'adresses.city              as  adresses_end_city',
-            'adresses.state             as  adresses_end_state'
-            
-        ]);
-
-
-        return res.json({
-            ...solicitations,
-            cargo: cargo,
-            helped: helped,
-            adresses: adresses,
-        });
-        */
-
-        
-
-
-
-   
-    
-
-        
-
-
-         /*  
-         
-                SVGAnimatedTransformListsdf
-            SVGDefsElementdsf
-            defaultStatusdf
-            SVGDefsElement
-            cargo: {
-                sdfsd
-            },
-
-
-        table.string('adresses_start_id').notNullable();
-        table.foreign('adresses_start_id').references('id').inTable('adresses');
-       
-             type,
-            zipCode,
-            street,
-            numberHouse,
-            neighborhood,
-            complement,
-            city,
-            state,
-            helped_id: helped_id, 
-            created_at: Date(),  
-        */
 
     },
 
@@ -446,6 +359,48 @@ module.exports = {
         .delete('*');
         
         return res.status(200).json('Solicitação excluida!');
+
+    },
+
+    async indexAll(req, res){
+        
+        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        if (!token)
+            return res.status(400).send('Faça o login');
+
+            
+        const solicitation = await connection('solicitations')
+            .leftOuterJoin('products', 'products.id', '=', 'solicitations.id')
+            .select([
+                'solicitations.title',
+                'solicitations.value',
+                'products.categories_id'
+            ])
+
+        return res.status(200).json(solicitation);
+
+
+
+        /*
+             const solicitationCargo = await connection('cargo')
+            .join('products', 'products.id', '=', 'product_id')
+            
+            .select([
+                'cargo.*',
+                'products.name',
+                'products.description',
+                'products.weight',
+                'products.width',
+                'products.height',
+                'products.lenght',
+                'products.pictureProduct',
+            ])
+            .where({
+                solicitation_id: id
+    
+            })
+        */
+
 
     }
 
