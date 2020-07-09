@@ -45,8 +45,10 @@ routes.get('/helpers', HelpersController.index);
 
 routes.post('/solicitations', SolicitationsController.create);
 routes.get('/solicitations/:id', SolicitationsController.index);
+routes.get('/solicitations', SolicitationsController.indexAll);
 routes.put('/solicitations/:id', SolicitationsController.update);
 routes.delete('/solicitations/:id', SolicitationsController.delete);
+
 
 // Routes of Join JoinSolicitation
 
@@ -101,7 +103,8 @@ routes.get('/reports/:id', ReportsController.index);
 
 //Route of Assessments
 
-routes.post('/assessment/:user_rated_id/solicitation/:solicitation_id', AssessmentsController.create);
+routes.post('/assessment/:user_rated_id/solicitation/:solicitation_id', AssessmentsController.helpedEvaluator);
+routes.put('/assessment/:user_rated_id/solicitation/:solicitation_id', AssessmentsController.helperEvaluator);
 routes.get('/assessment/:user_rated_id', AssessmentsController.index);
 
 
