@@ -107,14 +107,6 @@ module.exports = {
         if(!solicitation)
             return res.status(404).send('Solicitação não encontrada!');
 
-       /*
-        const solicitationCargo = await connection('cargo')
-            .select('*')
-            .where({
-                solicitation_id: id
-            })
-            .first()
-*/
             const solicitationCargo = await connection('cargo')
             .join('products', 'products.id', '=', 'product_id')
             
@@ -133,7 +125,6 @@ module.exports = {
     
             })
 
-        
         const startAddress = solicitation.adresses_start_id;  
         console.log('startAdresse',startAddress);
         
@@ -143,7 +134,6 @@ module.exports = {
                 id: startAddress
             })
             .first()
-
 
         const endAddress = solicitation.adresses_end_id;
         console.log('endAddress',endAddress);
@@ -174,15 +164,9 @@ module.exports = {
                 id: helperId
             })
             .first()
-
         
         console.log(solicitation);
 
-        
-            
-            
-        
-        
         return res.status(200).json([
             solicitation,
             solicitationCargo,

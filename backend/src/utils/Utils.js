@@ -8,7 +8,6 @@ module.exports = {
     if (!token)
       return undefined;
     const [ user ] = token.split('//');
-
     
     if (!user)
       return undefined;
@@ -30,10 +29,10 @@ module.exports = {
     console.log('peopleId ', peopleId);
     
     const helpeds = await connection('helpeds')
-    .where('people_id',peopleId)
-    .select('id').first();
+      .where('people_id', peopleId)
+      .select('id').first();
 
-    console.log(helpeds);
+    console.log('>>', helpeds);
        
     return helpeds;
   },

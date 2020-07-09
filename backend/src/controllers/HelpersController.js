@@ -1,6 +1,7 @@
 const connection = require('../database/connection');
 const image2base64 = require('image-to-base64');
 const Peoples = require('../utils/Peoples');
+const utils = require('../utils/Utils');
 
 module.exports = {
 
@@ -20,11 +21,7 @@ module.exports = {
             state
         } = req.body;
 
-        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
-        if (!token)
-            return res.status(400).send('Faça o login');
-        const user = token.split('//');
-        const userId = user[0]; //substituir pela utils
+        const token = utils.getUserIdByToken(token);
         
         const people = await connection('peoples')
             .where('user_id',userId)
@@ -53,18 +50,7 @@ module.exports = {
     },
 
     async create(req, res) {
-
-      const {
-        haveDriverLicense = false,
-        DriverLicenseNumber = 0,
-        driverLicensePicture = '',
-        helperPicture = '',
-        documentIdPicture = '',
-        cpfPicture = '',
-        addressDocumentPicture = '',
-      } = req.body;
-
-        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        const token = Buffer.from(req.headers.authorization, "base64").toString("ascii");
         if (!token)
           return res.status(400).send('Faça o login');
         const user = token.split('//');
@@ -77,15 +63,7 @@ module.exports = {
 
           console.log(id);
           
-          
           Peoples.createPersonHelper({
-            haveDriverLicense,
-            DriverLicenseNumber,
-            driverLicensePicture,
-            helperPicture,
-            documentIdPicture,
-            cpfPicture,
-            addressDocumentPicture,
             user_id: userId,
             people_id: id,
             created_at: Date(),

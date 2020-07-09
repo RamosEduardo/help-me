@@ -133,14 +133,12 @@ export default {
           Authorization: token,
         },
       });
-      console.log('people ', people);
-      alert('Cadastrou');
+      alert('Cadastrou', people.name);
       localStorage.setItem('name', this.person.name);
     },
   },
 };
 </script>
-
 <style lang="scss">
   .content-login {
     width: 80%;

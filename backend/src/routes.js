@@ -22,6 +22,7 @@ routes.post('/users', UserController.create);
 routes.put('/users', UserController.rememberPassword);
 routes.delete('/users', UserController.remove);
 routes.get('/users', UserController.index);
+routes.get('/user/:id', UserController.userById);
 routes.post('/login', UserController.login);
 
 // Rotas de Pessoas

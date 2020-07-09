@@ -74,7 +74,6 @@ module.exports = {
         const userId = user[0];
         console.log(userId);
         
-        
         const people = await connection('peoples').insert({
             name, 
             documentId, 
@@ -88,6 +87,11 @@ module.exports = {
             city, 
             state,
             user_id: userId,
+        });
+
+        await connection('users').where('id',userId).update({
+            firstAcess: 0,
+            firstAcessPassword: 0,
         });
 
         return res.status(200).json({ people });

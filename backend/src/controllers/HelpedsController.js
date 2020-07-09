@@ -70,9 +70,6 @@ module.exports = {
           const { id } = resp;
           
           Peoples.createPersonHelped({
-            helpedPicture,
-            documentIdPicture,
-            cpfPicture,
             people_id: id,
             created_at: Date(),
           }).then(newPerson => {

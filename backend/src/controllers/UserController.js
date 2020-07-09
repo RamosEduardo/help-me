@@ -6,6 +6,13 @@ const { NOTFOUND } = require('dns');
 
 module.exports = {
 
+    async userById(request, response) {
+        const { id } = request.params;
+        if (id) {
+            const user = await connection('users').where('id', id).select('*').first();
+            return response.json(user);
+        }
+    },
     async index(request, response) {
 
         // const { id } = request.params;

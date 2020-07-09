@@ -55,7 +55,6 @@
                 round
                 color="primary"
                 icon="call"
-                @click="openContact"
               />
             </q-card-actions>
           </q-card-section>
@@ -69,19 +68,29 @@
         <view-more-details @close-details="state.view = 'list'"/>
       </div>
     </template>
+
+    <template v-if="state.view === 'help-me'">
+      <form-create-solicitation @wait="state.view = 'wait'"></form-create-solicitation>
+    </template>
+
+    <template v-if="state.view === 'wait'" @new="state.view = 'help-me'">
+      <aguarde />
+    </template>
+
   </q-page>
 </template>
 
 <script>
-
 export default {
   components: {
+    formCreateSolicitation: () => import('./FormCreateSolicitation.vue'),
     viewMoreDetails: () => import('./components/viewMoreDetails.vue'),
+    aguarde: () => import('./aguarde.vue'),
   },
   data() {
     return {
       state: {
-        view: 'list',
+        view: 'help-me',
         mockSolicitations: [
           {
             id: '123456',

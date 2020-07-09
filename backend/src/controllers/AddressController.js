@@ -14,7 +14,7 @@ module.exports = {
     async create(req, res){
 
 
-        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        const token = Buffer.from(req.headers.authorization, "base64").toString("ascii");
         if (!token)
             return res.status(400).send('Faça o login');
        
@@ -22,39 +22,27 @@ module.exports = {
         if (!userId)
             return res.status(400).send('Faça o login');
 
-        const people = await getPeoplesByUserId({userId});  
+        const people = await getPeoplesByUserId({userId});
         const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
-
-        if (!helped)
-        return res.status(404).send('Motorista não cadastrado!');
 
         const helped_id = helped.id;
 
-        
-
         const {
-            type,
             zipCode,
             street,
-            numberHouse,
-            neighborhood,
-            complement,
-            city,
-            state,
         } = req.body;
 
-
         const address = await connection('adresses').insert({
-            type,
+            type: '--',
             zipCode,
             street,
-            numberHouse,
-            neighborhood,
-            complement,
-            city,
-            state,
+            numberHouse: '--',
+            neighborhood: '--',
+            complement: '--',
+            city: '--',
+            state: '--',
             helped_id: helped_id, 
-            created_at: Date()  
+            created_at: new Date() 
         });
 
         return res.status(200).json({ address });
@@ -64,7 +52,7 @@ module.exports = {
 
     async index(req, res){ 
         
-        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        const token = Buffer.from(req.headers.authorization, "base64").toString("ascii");
         if (!token)
             return res.status(400).send('Faça o login');
        
@@ -107,7 +95,7 @@ module.exports = {
         const {id} = req.params;
 
         
-        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        const token = Buffer.from(req.headers.authorization, "base64").toString("ascii");
         if (!token)
             return res.status(400).send('Faça o login');
        
@@ -131,8 +119,6 @@ module.exports = {
                 status: 0
             })
             .first()
-
-        console.log(checkSolicitationStatus);
 
         if(!checkSolicitationStatus)
             return res.status(404).send('Endereço já esta em uso! Não pode ser alterado.');
@@ -177,7 +163,7 @@ module.exports = {
         
         const {id} = req.params;
 
-        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        const token = Buffer.from(req.headers.authorization, "base64").toString("ascii");
         if (!token)
             return res.status(400).send('Faça o login');
        
@@ -201,8 +187,6 @@ module.exports = {
                 status: 0
             })
             .first()
-
-        console.log(checkSolicitationStatus);
 
         if(!checkSolicitationStatus)
             return res.status(404).send('Endereço já esta em uso! Não pode ser alterado.');

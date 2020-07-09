@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <div class="content-login">
-      <section v-if="state.view === 'create-person'">
+      <section v-if="state.view === 'complete-profile'">
         <form-create-person />
       </section>
       <section v-if="state.view === 'home-page'">
@@ -24,13 +24,16 @@ export default {
   data() {
     return {
       state: {
-        view: 'vehicles',
+        view: 'home-page',
       },
       logoImg,
     };
   },
+  created() {
+    this.checkFirstAccess();
+  },
   components: {
-    // FormCreatePerson: () => import('./Pages/FormCreatePerson.vue'),
+    FormCreatePerson: () => import('./Pages/FormCreatePerson.vue'),
     Home: () => import('./Pages/Home.vue'),
     Vehicles: () => import('./Pages/Vehicles/Vehicles.vue'),
   },
@@ -40,15 +43,12 @@ export default {
       const { firstAcess, firstAcessPassword } = await this.getAccessInfos({
         userId,
       });
-
       if (firstAcess) this.state.view = 'complete-profile';
       if (!firstAcess && firstAcessPassword) this.state.view = 'set-new-password';
-      if (!firstAcess && !firstAcessPassword) this.state.view = 'home';
-
-      // Fazer verificação e chamar o componente respectivo
+      if (!firstAcess && !firstAcessPassword) this.state.view = 'home-page';
     },
     async getAccessInfos({ userId }) {
-      const { data } = await api.get(`/users/${userId}`);
+      const { data } = await api.get(`/user/${userId}`);
       return data;
     },
     getUserByToken() {

@@ -33,9 +33,9 @@ module.exports = {
         } = req.body;
 
         const checkPlaca = await connection('vehicles')
-        .select('placa')
-        .where('placa', placa)
-        .first()
+            .select('placa')
+            .where('placa', placa)
+            .first()
 
         console.log('check',checkPlaca);
 

@@ -8,7 +8,7 @@ const Peoples = require('../utils/Peoples');
 module.exports = {
     async create(req, res){
         
-        const token = new Buffer(req.headers.authorization, "base64").toString("ascii");
+        const token = Buffer.from(req.headers.authorization, "base64").toString("ascii");
         if (!token)
             return res.status(400).send('Faça o login');
        
@@ -24,6 +24,7 @@ module.exports = {
 
         const helped_id = helped.id;
 
+        console.log('BODY ', req.body);
 
         const { 
             name, 
@@ -32,8 +33,6 @@ module.exports = {
             width, 
             height,
             lenght,
-            pictureProduct, 
-            categories_id 
         } = req.body;
 
       //  const helped_id = req.headers.authorization;
@@ -45,8 +44,8 @@ module.exports = {
             width,
             height,
             lenght,
-            pictureProduct,
-            categories_id,
+            pictureProduct: '',
+            categories_id: '000',
             helped_id,
             created_at: Date(),    
         });
@@ -67,13 +66,11 @@ module.exports = {
 
         const people = await getPeoplesByUserId({userId});  
         const helped = await getHelpedIdByPeopleUser({ peopleId: people.id });
-
+        console.log('Helped id ', helped);
         if (!helped)
         return res.status(404).send('Motorista não cadastrado!');
 
         const helped_id = helped.id;
-
-        //const helped_id = req.headers.authorization;
 
         const product = await connection('products')
         .select('*')
